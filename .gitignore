@@ -4,3 +4,5 @@ public
 .idea
 client/bower_components
 dist
+config
+bower_components
