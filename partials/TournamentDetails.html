@@ -1,0 +1,111 @@
+<div class="panel2">
+	<div class="headerMSOP">
+		<h1>Episode {{episodeId}} <small>Details</small></h1>
+	</div>
+	<div class="alert alert-success"  id="alert-message" style="display:none;">Action enregistrée :{{tournament.notes}}  </div>
+	<div id="Resume" ng-class="{hidden: menuDetails!=='Resume'}">
+
+
+		<div class="headerTournament">
+			<div class="foot"><span class="glyphicon glyphicon-time"></span></div>
+			<div class="time">21:00</div>
+			<div class="date">Vendredi <br/>{{tournament.day}} {{tournament.month}} 2014</div> 
+		</div>
+		<div class="headerTournament">
+			<div class="foot"><span class="glyphicon glyphicon-map-marker"></span></div>
+			<div class="mylocation" ng-show="loggedIn">{{tournament.city}}</div>
+			<div class="myadresse" >Chez <strong>{{tournament.lieu}} </strong> : <span ng-show="loggedIn">{{tournament.street}} {{tournament.plz}} {{tournament.city}}</span><span ng-show="loggedOut">Connectez vous pour voir l'adresse complète</span></div> 
+			<img class="mymaps" src="http://www.jansipke.nl/wp-content/uploads/googlemaps-icon-circles.png">
+		</div>
+		<div class="headerTournament">
+			<div class="foot"><span class="glyphicon glyphicon-user"></span></div>
+			<div class="recap"><img src="images/bullet_ball_green_16x16_plain.png"/><span class="number green">{{tournament.nbplayer}}</span><span class="description">joueurs présents</span></div> 
+			<div class="recap"><img src="images/bullet_ball_red_16x16_plain.png"/><span class="number amber">{{tournament.nbplayernok}}</span><span class="description">joueurs absents</span></div> 
+			<div class="recap"><img src="images/bullet_ball_grey_16x16_plain.png"/><span class="number grey">{{tournament.nbuser}}</span><span class="description">joueurs sans réponse</span></div> 
+		</div>
+		<div class="headerTournament">
+			<div class="foot"><span class="glyphicon glyphicon-question-sign"></span></div>
+			<div class="myadresse" ng-show="loggedOut">Connectez vous pour répondre</div> 
+			<div ><button type="button" class="btn buttonpresence btn-success" ng-class="{'disabled': tournament.infutur == 0 || loggedOut }" ng-click="ReponsePlayer(currentUserId,'OK')">Je serais présent</button></div> 
+			<div ><button type="button" class="btn buttonpresence btn-warning" ng-class="{'disabled': tournament.infutur == 0 || loggedOut }" ng-click="ReponsePlayer(currentUserId,'NOK')">Je serais absent</button></div> 
+			<div ><button type="button" class="btn buttonpresence btn-default" ng-class="{'disabled': tournament.infutur == 0 || loggedOut }" ng-click="ReponsePlayer(currentUserId,'')">Je ne sais pas</button></div> 
+		</div>
+		<div class="headerTournament">
+			<div class="foot"><span class="glyphicon glyphicon-map-marker"></span></div>
+			<div class="mylocation">Live</div>			
+			<div class="myadresse"><span class="glyphicon glyphicon-play mystart" ng-show="currentUserId==10" ng-click="LiveOn(currentUserId, eventId)"> Commencer le tournoi<br></span><span class="myadresse"><br>Début : {{tournament.start}}<br>Fin : {{tournament.end}}</span></div> 
+			
+		</div>
+		<div class="headerTournament">
+			<div class="foot"><span class="glyphicon glyphicon-map-marker"></span></div>
+			<div class="mylocation">Vainqueur</div>
+			<div class="myadresse"><span ng-show="blnvainqueur == false">En attente résultat</span><strong> {{vainqueur}}</strong></div> 
+			<div class="circular" style="background: url({{vainqueuravatar}}) no-repeat;"></div>
+
+		</div>
+		<div class="headerTournament">
+			<div class="foot"><span class="glyphicon glyphicon-map-marker"></span></div>
+			<div class="mylocation">Performance</div>
+			<div class="myadresse" ng-show="blnvainqueur == false">En attente résultat</div> 
+			<div class="myadresse" ng-show="blnvainqueur">
+				<div class="performancediv" ng-controller="chartCtrl">
+    				<span class="performancetotal">{{tournament.nbplayer}}</span>
+    				<span class="performance">{{myPlayer.rank}}</span>
+    				<div easypiechart options="options" percent="percent"></div>
+				</div>
+			</div> 
+
+
+		</div>
+	</div>
+
+	<div id="classement" ng-class="{hidden: menuDetails!=='Classement'}">
+		<table class="table table-condensed table-player" >
+			<thead>
+				<tr>
+					<th class="th-player">#</th>
+					<th class="th-player"></th>
+					<th class="th-player">Joueur</th>
+					<th class="th-player">Points</th>
+					<th class="th-player">kill</th>
+					<th class="th-player">Gains</th>
+					<th class="th-player">RoundOut</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="player in players  | orderBy:-notes">
+					<td class="td-player rank">
+						<img ng-show="loggedOut" ng-src="images/bullet_ball_{{player.notes}}_16x16_plain.png" /> 
+						<img ng-show="loggedIn" ng-src="images/bullet_ball_{{player.notes}}_16x16_plain.png" ng-click="ReponsePlayer(player.id_user, player.notes, player)"/> 
+						<span ng-show="player.rank >0"> {{player.rank}}</span>
+					</td>
+					<td class="td-player rank"> <img class="avatar" ng-src="{{player.avatar}}"></td>
+					<td class="td-player"><h3>{{player.username}}  </h3> <!-- {{player.id_player}} --></td>
+					<td class="td-player"><h4 class="Totalpts">{{player.tournamentpts}}</h4></td>
+					<td class="td-player">{{player.knockouts}} </td>
+						<td class="td-player"><span ng-show="player.payout > 0 ">{{player.payout}}€</span></td>
+					<td class="td-player">{{player.roundout}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div id="Details" ng-class="{hidden: menuDetails!=='Details'}">
+		<div class="testimonial testimonial-dark" ng-repeat="comment in comments">
+			<blockquote>
+				<em class="icon-quote-left"></em> <img class="circular" alt="32x32" style="width: 32px; height: 32px;margin-right:10px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA+klEQVRYR+2WMQuEMAyF34EKDuIqOIm4iM6C/38WN8FVcHRwVexdChH1rIc33C0piDS8kJevhfQxDIPCH9dDDAgBISAEhIAQMBF4xVHXNZZlQZZlcBxn3UdRhDiOdyPsrp6TjcOoqirYto1pmnZ/y7IwjqOO0Uf7eZ7fdJzH+qIoTmfu5TTsug5932ObzMbCMNRElFIoyxKu6+JKn+f5fQOU0TSN7phMUIG2bdeCZIY63Rq80p85+HgEjDBJEt1xmqYIggDHMydSfCRk+Kg3vXmMBs4KUIyW53m6mO/7+nJScS7Il5ZiW/1Xd+AXLzV5kgkBISAEhIAQeAI0gyFQQ7RZIgAAAABJRU5ErkJggg==">{{comment.details}}                
+			</blockquote>
+			<p class="testimonial-footer">
+				<b>{{comment.username}}</b> : {{comment.time}}                
+			</p>
+		</div>
+	</div>
+
+
+</div>
+
+<nav class="navbottom" >
+	<a href="#/TournamentDetails/{{seasonId}}/{{episodeId}}"  ng-click="menuDetails='Classement'" ng-class="{active: menuDetails=='Classement'}"><span class="glyphicon glyphicon-sort-by-order"></span> Classement</a>
+	<a href="#/TournamentDetails/{{seasonId}}/{{episodeId}}"  ng-click="menuDetails='Resume'" ng-class="{active: menuDetails=='Resume'}"><span class="glyphicon glyphicon-star"> </span> Résumé</a>
+	<a href="#/TournamentDetails/{{seasonId}}/{{episodeId}}"  ng-click="menuDetails='Details'" ng-class="{active: menuDetails=='Details'}"><span class="glyphicon glyphicon-list-alt"> </span> Détails</a>
+</nav>

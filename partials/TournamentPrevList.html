@@ -1,0 +1,18 @@
+<div class="list-group view">
+
+  <a ng-repeat="tournament in tournaments" class="list-group-item date-tournoi" href="">
+      <div class="date">
+        <span class="month">{{tournament.month}}</span> 
+        <span class="day">{{tournament.day}}</span> 
+      </div>
+      <h4 class="list-group-item-heading">Saison {{tournament.season}} Episode {{tournament.episode}}</h4>
+      <p class="list-group-item-text">@{{tournament.location}}
+      </p>
+      <div class="score">
+        <span class="month">{{tournament.month}}</span> 
+        <span class="day">{{tournament.day}}</span> 
+      </div>
+    
+  </a>
+
+</div >

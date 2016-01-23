@@ -1,0 +1,50 @@
+<div class="panel2">
+	<div class="headerMSOP">
+		<h1>Classement <small>de la saison</small></h1>
+	</div>
+
+	<div id="Resume" ng-class="{hidden: menuClassement!=='Resume'}">
+	En cours de mise en place
+	</div>
+	<div id="classement" ng-class="{hidden: menuClassement!=='Classement'}">
+		<table class="table table-condensed table-player" >
+			<thead>
+				<tr>
+					<th class="th-player">#</th>
+					<th class="th-player"></th>
+					<th class="th-player">Joueur</th>
+					<th class="th-player">Points (Top10)</th>
+					<th class="th-player">Entrée</th>
+					<th class="th-player">kill</th>
+					<th class="th-player">Gains</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="player in players" >
+					<td class="td-player rank">{{$index + 1}}</td>
+					<td class="td-player rank"> 
+						<img class="avatar" ng-src="{{player.avatar}}">
+					</td>
+					<td class="td-player"><h3>{{player.username}}</h3></td>
+					<td class="td-player"><h4 class="Totalpts">{{player.totalpts}}</h4><small class="fullscore">({{player.totalpts}})</small></td>
+					<td class="td-player">{{player.nbtournois}}</td>
+					<td class="td-player">{{player.knockouts}}</td>
+
+					<td class="td-player"><span ng-show="player.payout > 0 ">{{player.payout}}  €</span></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div id="Details" ng-class="{hidden: menuClassement!=='Details'}">
+	En cours de mise en place
+	</div>
+
+
+</div>
+
+        <nav class="navbottom" >
+            <a href="#/Classement"  ng-click="menuClassement='Classement'" ng-class="{active: menuClassement=='Classement'}"><span class="glyphicon glyphicon-sort-by-order"></span> Classement</a>
+            <a href="#/Classement"  ng-click="menuClassement='Resume'" ng-class="{active: menuClassement=='Resume'}"><span class="glyphicon glyphicon-star"> </span> Trophée</a>
+            <a href="#/Classement"  ng-click="menuClassement='Details'" ng-class="{active: menuClassement=='Details'}"><span class="glyphicon glyphicon-list-alt"> </span> Détails</a>
+        </nav>

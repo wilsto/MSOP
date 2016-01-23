@@ -1,0 +1,121 @@
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+  <link href="dist/min.css" rel="stylesheet">
+
+  <title>MSOP </title>
+</head>
+
+<body ng-app="MSOP">
+
+  <!-- Modal -->
+  <div class="modal" id="ModalConnect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Se connecter</h4>
+        </div>
+        <div class="modal-body" style="text-align:center">
+          <form style="margin: 0px" accept-charset="UTF-8" action="php/login.php" method="post">
+           <div style="margin:0;padding:0;display:inline">
+             <input name="utf8" type="hidden" value="&#x2713;" />
+             <input name="authenticity_token" type="hidden" value="4L/A2ZMYkhTD3IiNDMTuB/fhPRvyCNGEsaZocUUpw40=" /></div>
+             <fieldset class='textbox loginset'>
+               Identifiant&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" placeholder="Identifiant" name="username"  /><br>
+               Mot de passe &nbsp;&nbsp;&nbsp;<input style="margin-top: 18px" type="password" placeholder="Mot de passe" name="password" /><br>
+               <input  style="margin-top: 18px" class="btn btn-primary" name="commit" type="submit" value="Se connecter" />
+             </fieldset>
+           </form>
+         </div>
+
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <section id="MSOPapp" ng-controller="LoginCtrl" >
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#"><h3>MSOP</h3></a>
+          <ul class="nav navbar-nav navseason" style="float: left; display: inline-block !important">
+           <li class="dropdown" id="accountmenu"><a class="dropdown-toggle" data-toggle="dropdown" ng-cloak>Saison {{activeseason }} <b class="caret"></b></a>
+
+            <ul class="dropdown-menu submenumsop" ng-init="activeseason=9">
+              <li><a class="notif" href="#" ng-click="activeseason=1"  data-title="Changement de saison" data-content="La saison affichée désormais dans le calendrier et le classement est la saison 1 ">Saison 1 </a></li>
+              <li><a class="notif" href="#" ng-click="activeseason=2"  data-title="Changement de saison" data-content="La saison affichée désormais dans le calendrier et le classement est la saison 2 ">Saison 2 </a></li>
+              <li><a class="notif" href="#" ng-click="activeseason=3"  data-title="Changement de saison" data-content="La saison affichée désormais dans le calendrier et le classement est la saison 3 ">Saison 3 </a></li>
+              <li><a class="notif" href="#" ng-click="activeseason=4"  data-title="Changement de saison" data-content="La saison affichée désormais dans le calendrier et le classement est la saison 4 ">Saison 4 </a></li>
+              <li><a class="notif" href="#" ng-click="activeseason=5"  data-title="Changement de saison" data-content="La saison affichée désormais dans le calendrier et le classement est la saison 5 ">Saison 5 </a></li>
+              <li><a class="notif" href="#" ng-click="activeseason=6"  data-title="Changement de saison" data-content="La saison affichée désormais dans le calendrier et le classement est la saison 6 ">Saison 6 </a></li>
+              <li><a class="notif" href="#" ng-click="activeseason=7"  data-title="Changement de saison" data-content="La saison affichée désormais dans le calendrier et le classement est la saison 7 ">Saison 7 </a></li>
+              <li><a class="notif" href="#" ng-click="activeseason=8"  data-title="Changement de saison" data-content="La saison affichée désormais dans le calendrier et le classement est la saison 8 ">Saison 8 </a></li>
+               <li><a class="notif" href="#" ng-click="activeseason=9"  data-title="Changement de saison" data-content="La saison affichée désormais dans le calendrier et le classement est la saison 9 ">Saison 9 </a></li>
+
+              <!--               <li ng-repeat="season in seasons "><a class="notif" href="#"  ng-click="activeseason={{season.season}}"  data-title="Changement de saison" data-content="La saison affichée désormais dans le calendrier et le classement est la saison {{season.season}} ">Saison {{season.season}}  </a></li> -->
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li ng-class="{ active: isActive('/Tournament')}"><a class="toggleauto" href="#/"><span class="glyphicon glyphicon-calendar"></span> Calendrier</a></li>
+          <li  ng-class="{ active: isActive('/Live')}"><a class="toggleauto" href="#/Live"><span  class="glyphicon glyphicon-play"> </span> Live</a></li>
+          <li ng-class="{ active: isActive('/Classement')}"><a class="toggleauto" href="#/Classement"><span class="glyphicon glyphicon-stats"> </span> Classement</a></li>
+          <!--           <li ng-class="{active: location.path() == '#/HallOfFame'}"><a class="toggleauto" href="#/HallOfFame"><span class="glyphicon glyphicon-star"> </span> Hall Of Fame</a></li>-->  
+          <li ng-show="loggedIn" ng-class="{ active: isActive('/Login')}"><a href="#/Login" class="toggleauto"><span class="glyphicon glyphicon-cog"> </span> Mon compte</a></li>
+          <li ng-show="loggedOut"><a data-toggle="modal" data-target="#ModalConnect"><span class="glyphicon glyphicon-cog"> </span> Se connecter</a></li>
+
+         </ul>
+       </div><!--/.nav-collapse -->
+     </div>
+   </div>
+
+   <div ng-view class="view scroll right"></div>
+
+ </section>
+
+
+    <!-- Core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+    <!-- JQuery core JavaScript -->
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-route.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.14/angular-animate.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+    <script src="dist/min.js"></script>
+
+    <script>
+      /* Permet de rtracter le menu dès clic */
+      $('.nav a.toggleauto').on('click', function(){
+       $(".navbar-toggle").click();
+     });
+
+      function createAutoClosingAlert(selector, delay) {
+       var alert = $(selector).fadeIn('slow');
+       window.setTimeout(function() { alert.fadeOut('slow') }, delay);
+     }
+
+     function EvalSound(soundobj) {
+       var thissound=document.getElementById(soundobj);
+       thissound.play();
+     }
+   </script>
+
+ </body>
+ </html>
+

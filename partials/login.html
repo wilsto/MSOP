@@ -1,0 +1,46 @@
+  <!-- Modal -->
+  <div class="modal" id="ModalChangePwd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  	<div class="modal-dialog">
+  		<div class="modal-content">
+  			<div class="modal-header">
+  				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+  				<h4 class="modal-title" id="myModalLabel">Modifier mon mot de passe</h4>
+  			</div>
+  			<form id="FormChangePWD" style="margin: 0px" accept-charset="UTF-8" action="php/changepassword.php" method="post">
+  				<div style="margin:0;padding:0;display:inline">
+  					<input name="utf8" type="hidden" value="&#x2713;" />
+  					<input name="authenticity_token" type="hidden" value="4L/A2ZMYkhTD3IiNDMTuB/fhPRvyCNGEsaZocUUpw40=" /></div>
+  					<fieldset class='textbox loginset'>
+  						<div class="modal-body" style="text-align:center">
+ 				            <span class="hide"> <input type="text" name="userId" value="{{userId}}"/><br></span>
+  							Mot de passe actuel&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="margin-top: 18px" type="password" placeholder="Mot de passe" name="oldpassword" /><br><br>
+  							Nouveau mot de passe &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input style="margin-top: 18px" type="password" placeholder="Mot de passe" name="newpassword" /><br>
+  							Confirmation mot de passe &nbsp;&nbsp;&nbsp;<input style="margin-top: 18px" type="password" placeholder="Mot de passe" name="newpassword2" /><br>
+  						</div>
+  						<div class="modal-footer">
+  							<button type="button" class="btn btn-default" data-dismiss="modal">Annuler</button>
+<!--   							<input  style="margin-top: 18px" class="btn btn-primary" name="commit" type="submit" value="Changer mon mot de passe" /> -->
+     						<button type="button" class="btn btn-Danger" data-dismiss="modal" ng-click="ChangePassword()">Changer mon mot de passe</button>
+  						</div>
+  					</fieldset>
+  				</div>
+  			</form>
+  		</div><!-- /.modal-content -->
+  	</div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <div class="panel2">
+
+  	<div class="headerMSOP">
+  		<h1> {{username}} </h1>
+  	</div>
+
+	<div id="message"></div>
+  	<br>
+  	<a class="btn btn-warning" data-toggle="modal" data-target="#ModalChangePwd">Changer mon mot de passe</a>
+<br><br>
+
+  	<a class="btn btn-primary" href="php/logout.php">Se déconnecter</a>
+
+
+  </div>

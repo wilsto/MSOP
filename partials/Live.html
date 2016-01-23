@@ -1,0 +1,219 @@
+
+<!-- Modal -->
+<div class="modal" id="ModalReset" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Ré-initialiser le tournoi</h4>
+			</div>
+			<div class="modal-body">
+				Toutes les données (buyin, points,..) seront supprimées <br>
+				Tous les commentaires et actions seront supprimées 
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+				<button type="button" class="btn btn-Danger" data-dismiss="modal" ng-click="Reset()">Oui</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Modal -->
+<div class="modal" id="ModalRound" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Gestion des rounds</h4>
+			</div>
+			<div class="modal-body">
+				Permet de passer directement au round <span class="roundeffect" ng-show="followlevel =='previous'"> précédent </span> <span class="roundeffect"  ng-show="followlevel =='next'"> suivant </span><br>
+				Voulez vous continuer ?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+				<button type="button" class="btn btn-Danger" data-dismiss="modal" ng-click="Changelevel(followlevel)">Oui</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Modal -->
+<div class="modal" id="ModalEnd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Arreter le tournoi</h4>
+			</div>
+			<div class="modal-body">
+				Le tournoi sera marqué comme terminé. <br>Plus aucune action ne sera possible<br> Voulez vous continuer ?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+				<button type="button" class="btn btn-Danger" data-dismiss="modal" ng-click="EndTournoi()">Oui</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Modal -->
+<div class="modal" id="ModalStart" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">Commencer le tournoi</h4>
+			</div>
+			<div class="modal-body">
+				Le tournoi sera marqué comme commencé. <br> Voulez vous continuer ?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Non</button>
+				<button type="button" class="btn btn-Danger" data-dismiss="modal" ng-click="StartTournoi()">Oui</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="Live" class="panel2">
+	<div class="headerMSOP">
+		<h1> Tournoi Live  <small ng-show="liveOn">Saison {{tournament.season}} Episode {{tournament.episode}} </small></h1>
+	</div>
+
+	<div class="liveOff" ng-show="liveOff">
+		Aucun tournoi en cours
+	</div>
+	<div class="alert alert-success"  id="alert-message" style="display:none;">Action enregistrée</div>
+	<div class="liveOn" ng-show="liveOn">
+		<div id="Resume" ng-class="{hidden: menuLive!=='Resume'}">
+						<div class="btn-play-all">
+					<button type="button" class="btn btn-play btn-success" data-toggle="modal" data-target="#ModalStart" ng-show="tournament.leveltime == tournament.end"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Démarrer le tournoi</button>
+					<button type="button" class="btn btn-play btn-danger" data-toggle="modal" data-target="#ModalEnd" ng-show="tournament.leveltime > tournament.end"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Marquer la fin du tournoi </button>
+					<button type="button" class="btn btn-play btn-Warning" data-toggle="modal" data-target="#ModalReset"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Reset</button>
+
+				</div>
+			<div class="rounds">
+				<div ><h1 class="blind">{{currentlevel.smallblind}}</h1><span class="nextblindsmall">{{nextlevel.smallblind}}</span></div>
+				<div class="round"><h1 class="roundnumber">{{currentlevel.level}}</h1>{{currentlevel.typelevel}}</div>
+				<div ><h1 class="blind">{{currentlevel.bigblind}}</h1><span class="nextblindbig">{{nextlevel.bigblind}}</span></div>
+			</div>
+
+				<div class="btn-level">
+					<button type="button" class=" btn-live btn-round" ng-click="followlevel='previous'"  data-toggle="modal" data-target="#ModalRound"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Round -</button>
+					<button type="button" class="btn-live btn-round" ng-click="followlevel='next'"  data-toggle="modal" data-target="#ModalRound"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Round +</button>
+				</div>
+
+			<div class="clock">
+				<!-- Minutes -->
+				<div class="clock_minutes">
+					<div class="bgLayer">
+						<div class="topLayer"></div>
+						<canvas id="canvas_minutes" width="188" height="188">
+						</canvas>
+						<div class="text">
+							<p class="val">0</p>
+							<p class="type_minutes">Minutes</p>
+						</div>
+					</div>
+				</div>
+				<!-- Minutes -->
+				<!-- Seconds -->
+				<div class="clock_seconds">
+					<div class="bgLayer">
+						<div class="topLayer"></div>
+						<canvas id="canvas_seconds" width="188" height="188">
+						</canvas>
+						<div class="text">
+							<p class="val">0</p>
+							<p class="type_seconds">Seconds</p>
+						</div>
+					</div>
+				</div>
+				<!-- Seconds -->
+
+			</div>
+			<div class="clearfix"></div>
+				<div class="btn-level">
+					<button type="button" class="btn btn-liveplay" ng-click="PlayGame()" ng-show="tournament.lastpause !=='0000-00-00 00:00:00'"><span class="glyphicon glyphicon-play"></span></button>
+					<button type="button" class="btn btn-liveplay" ng-click="PauseGame()" ng-show="tournament.leveltime !=='0000-00-00 00:00:00' && tournament.lastpause == '0000-00-00 00:00:00'"><span class="glyphicon glyphicon-pause"></span></button>
+				</div>
+		</div>
+
+		<div id="classement" ng-class="{hidden: menuLive!=='Classement'}">
+			<table class="table table-condensed table-player" >
+				<thead>
+					<tr>
+						<th class="th-player">#</th>
+						<th class="th-player"></th>
+						<th class="th-player">Joueur</th>
+						<th class="th-player">Points</th>
+						<th class="th-player">kill</th>
+						<th class="th-player">Gains</th>
+						<th class="th-player">RoundOut</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="player in players | orderBy:['-notes','rank','username']">
+						<td class="td-player bartd rank">
+							<img ng-src="images/bullet_ball_{{player.notes}}_16x16_plain.png" ng-click="ReponsePlayer(player.id_user, player.notes, player)"/> 
+							<span  ng-show="player.rank >0"> {{player.rank}}</span>
+						</td>
+						<td class="td-player rank"> <img class="avatar"  ng-src="{{player.avatar}}"></td>
+						<td class="td-player">
+							<h3>{{player.username}} 
+
+								<!-- POur buyin le joueur -->
+								<span ng-show="(player.buyin < 1)" ng-click="buyIn(player)" class="badge badgeplayers buyIn"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;&nbsp;Buyin</span>
+
+								<!-- Pour kicker le joueur -->
+								<span ng-show="(player.buyin > 0) && (player.rank < 1)" ng-click="kicker(player)" class="badge badgeplayers kicker"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;&nbsp;KnockOut</span>
+
+							</h3>
+						</td>
+						<td class="td-player"><h4 class="Totalpts">{{player.tournamentpts}}</h4></td>
+						<td class="td-player">{{player.knockouts}} </td>
+						<td class="td-player">{{player.payout}} <span ng-show="player.payout > 0 ">€</span></td>
+						<td class="td-player">{{player.roundout}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div id="Details" ng-class="{hidden: menuLive!=='Details'}">
+				<div class="testimonial testimonial-dark" ng-repeat="comment in comments">
+					<blockquote>
+						<em class="icon-quote-left"></em> <img class="circular" alt="32x32" style="width: 32px; height: 32px;margin-right:10px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA+klEQVRYR+2WMQuEMAyF34EKDuIqOIm4iM6C/38WN8FVcHRwVexdChH1rIc33C0piDS8kJevhfQxDIPCH9dDDAgBISAEhIAQMBF4xVHXNZZlQZZlcBxn3UdRhDiOdyPsrp6TjcOoqirYto1pmnZ/y7IwjqOO0Uf7eZ7fdJzH+qIoTmfu5TTsug5932ObzMbCMNRElFIoyxKu6+JKn+f5fQOU0TSN7phMUIG2bdeCZIY63Rq80p85+HgEjDBJEt1xmqYIggDHMydSfCRk+Kg3vXmMBs4KUIyW53m6mO/7+nJScS7Il5ZiW/1Xd+AXLzV5kgkBISAEhIAQeAI0gyFQQ7RZIgAAAABJRU5ErkJggg==">{{comment.details}}                
+					</blockquote>
+					<p class="testimonial-footer">
+						<b>{{comment.username}}</b> : {{comment.time}}                
+					</p>
+				</div>
+
+
+
+		</div>
+	</div>
+
+</div>
+
+<nav class="navbottom" >
+	<a href="#/Live" ng-show="liveOn" ng-click="menuLive='Classement'" ng-class="{active: menuLive=='Classement'}"><span class="glyphicon glyphicon-sort-by-order"></span> Classement</a>
+	<a href="#/Live" ng-show="liveOn" ng-click="menuLive='Resume'" ng-class="{active: menuLive=='Resume'}"><span class="glyphicon glyphicon-star"> </span> Résumé</a>
+	<a href="#/Live" ng-show="liveOn" ng-click="menuLive='Details'" ng-class="{active: menuLive=='Details'}"><span class="glyphicon glyphicon-list-alt"> </span> Détails</a>
+</nav>
+
+
+
+<div class="hide">
+	<audio id="kicker" controls preload="auto" autobuffer>
+		<source src="sounds/success.wav"/>
+	</audio>
+	<audio id="buyIn" controls preload="auto" autobuffer>
+		<source src="sounds/success.wav"/>
+	</audio>
+
+</div>
+
+

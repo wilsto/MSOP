@@ -1,0 +1,32 @@
+
+      <div class="panel2" >
+  <div class="headerMSOP">
+    <h1>Calendrier <small>des tournois</small></h1>
+  </div>
+  <div class="list-group ">
+
+      <a href="#/TournamentDetails/{{tournament.season}}/{{tournament.episode}}" ng-repeat="tournament in tournaments | filter:statusFilter " class="list-group-item date-tournoi">
+        <div class="bar"></div>
+          <div class="date">
+            <span class="month">{{tournament.month}}</span> 
+            <span class="day">{{tournament.day}}</span> 
+          </div>
+          
+          <h1 class="towhite">Episode {{tournament.episode}} {{tournament.title}}<span class="badge badgeplayers"> <span class="glyphicon glyphicon-user"> </span>&nbsp;&nbsp;&nbsp;{{tournament.nbplayer}}</span></h1>
+          <p class="location">@{{tournament.lieu}}</p>
+          <!--
+         <div ng-controller="chartCtrl" class="pie">
+            <div easypiechart options="options" percent='tournament.nbplayers' >{{tournament.nbplayers}}</div>
+        </div>
+        -->
+      </a>
+  </div >
+</div>
+ </div>
+
+        <nav class="navbottom" >
+
+            <a href="#/Tournament" ng-click="menu='Past'" ng-class="{active: menu=='Past'}"><span class="glyphicon glyphicon-chevron-left"> </span> Passé</a>
+            <a href="#/Tournament" ng-click="menu='Futur'" ng-class="{active: menu=='Futur'}"><span class="glyphicon glyphicon-chevron-right"> </span> Futur</a>
+            <a href="#/Tournament" ng-click="menu='All'" ng-class="{active: menu=='All'}"><span class="glyphicon glyphicon-th-list"></span> Tous</a>
+        </nav>
