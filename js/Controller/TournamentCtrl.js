@@ -27,6 +27,18 @@ app.controller('TournamentCtrl', function($scope, $http) {
     $scope.LoadSeason = function() {
         $http.get('php/Tournament.php?action=TournamentList&activeseason=' + $scope.activeseason).success(function(data) {
             $scope.tournaments = data;
+
+            // déterminer le prochain tournoi
+            var blnNext = false;
+            angular.forEach($scope.tournaments, function(value, key) {
+                value.next = false;
+                if (new Date(value.date) > Date.now()) {
+                    if (blnNext === false) {
+                        value.next = true;
+                        blnNext = true;
+                    }
+                }
+            });
         });
     };
 

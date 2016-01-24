@@ -45,10 +45,12 @@ a.comments:hover { background-color: #000!important }
 /*Calendar Styles*/
 .date { width: 100px; position: relative; left: 0; top: -10px; float: right; }
 .date .month { text-transform: uppercase; background: none; padding: 3px 0 3px 0; width: 98px; display: block; text-align: center; }
-.date .day { font-size: 41px; color: #71cdf4; width: 98px; padding: 6px 0 0 0; display: block; line-height: 41px; text-align: center; }
+.date .day { font-size: 41px;  width: 98px; padding: 6px 0 0 0; display: block; line-height: 41px; text-align: center; }
 .headerMSOP { height: 50px; line-height: 40px; background: #1C1D21; border-bottom-width: 1px; border-bottom-color: #71cdf4; border-bottom-style: solid; }
 .headerMSOP h1 { font-size: 28px; color: #71cdf4; text-align: left; line-height: 48px; }
 .bar { width: 10px; background: #555; height: 130%; position: relative; left: -10; top: -10; float: left; }
+.bardone { width: 10px; background: #008040; height: 130%; position: relative; left: -10; top: -10; float: left; }
+.baractive { width: 10px; background: #71cdf4; height: 130%; position: relative; left: -10; top: -10; float: left; }
 .bartd { width: 10px; background: #555; height: 100%; position: relative; float: left; }
 .location { text-align: left; margin-left: 74px; margin-top: 2px; }
 .pie { margin-top: -50px }
@@ -59,7 +61,7 @@ a.comments:hover { background-color: #000!important }
 .angular { margin-top: 100px }
 .angular .chart { margin-top: 0 }
 .badgeplayers { margin-left: 15px; background: none; border: 1px solid #555; padding: 10px; font-size: 14px; }
-.headerTournament { width: 250px; height: 200px; margin: 5px 5px 5px 5px; border: 0; color: #fff; background: #2A2A2A; position: relative; left: 0; top: 0; float: left; overflow: hidden; }
+.headerTournament { width: 250px; height: 200px; margin: 5px 5px 5px 5px; border: 0; color: #fff; background: #2A2A2A; position: relative; left: 0; top: 0; float: left; overflow: visible; }
 .headerTournament .time { font-size: 45px; font-weight: bold; text-align: center; padding: 5px; background: #1F1F1F; width: 100%; }
 .headerTournament .date { font-size: 23px; text-align: center; color: #999; padding: 25px; width: 100%; text-transform: lowercase; }
 .headerTournament .foot { height: 20px; background: #000; text-align: center; color: #555; }
@@ -73,6 +75,7 @@ a.comments:hover { background-color: #000!important }
 .headerTournament .description { text-align: right; width: 75%; color: #999; }
 .headerTournament  .circular { position: relative; margin: 0 auto; top: 10px; margin-bottom: 10px; width: 100px; height: 100px; border-radius: 50px; -webkit-border-radius: 50px; -moz-border-radius: 50px; background: url(../images/smallwinner.jpg) no-repeat; }
 .green { color: #4cae4c }
+.blue { color: #71cdf4 }
 .amber { color: #eea236 }
 .grey { color: #555 }
 .avatar { width: 55px; height: 70px; }
@@ -104,6 +107,7 @@ a.comments:hover { background-color: #000!important }
 .roundeffect { font-size: 20px; text-transform: capitalize; color: #000; }
 .performancediv{position:relative;}
 .performance{position:absolute;top:50%;left:40%;font-size: 45px;text-align: center;width: 50px;}
+.header-right{position:relative;float:right;padding-right:5px;padding-top:2px;color:#71cdf4 ;}
 /*******************************************
 LOGIN.btn-play-all{position: absolute;top: 25px;width: 100%}
 ********************************************/

@@ -1,4 +1,4 @@
-var app = angular.module('MSOP', ['ngRoute', 'ngAnimate', 'easypiechart', 'ui.bootstrap']);
+var app = angular.module('MSOP', ['ngRoute', 'ngAnimate', 'easypiechart', 'ui.bootstrap', 'xeditable']);
 
 app.config(['$routeProvider',
     function($routeProvider) {
@@ -33,6 +33,9 @@ app.config(['$routeProvider',
     }
 ]);
 
+app.run(function(editableOptions) {
+    editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+});
 
 app.factory('UserService', function() {
     return {

@@ -1,4 +1,5 @@
 <?php 
+require_once('PhpConsole.phar');
 
 if(isset($_GET["action"])) {
 
@@ -66,6 +67,20 @@ if(isset($_GET["action"])) {
 			$notes=$_GET["Presence"];
 			$rs = mysql_query("DELETE FROM pokerpoints WHERE id_event= " . $eventid . " and id_player = " . $playerId);
 			$rs = mysql_query("INSERT INTO pokerpoints (id_event, id_player, notes, registerdate) VALUES ('$eventid','$playerId','$notes',now())");
+			$blnquery = false;
+			$arr = array("Insert with success");
+		}
+
+
+		if ($_GET["Info"]=="saveTournoi") {
+			$eventid=$_GET["episode"];
+			$seasonid=$_GET["season"];
+
+			$postdata = file_get_contents("php://input");
+			$request = json_decode($postdata);
+var_dump($request);
+			//$rs = mysql_query("DELETE FROM pokerpoints WHERE id_event= " . $eventid . " and id_player = " . $playerId);
+			//$rs = mysql_query("INSERT INTO pokerpoints (id_event, id_player, notes, registerdate) VALUES ('$eventid','$playerId','$notes',now())");
 			$blnquery = false;
 			$arr = array("Insert with success");
 		}

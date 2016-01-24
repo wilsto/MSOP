@@ -7,9 +7,10 @@
 
 
 		<div class="headerTournament">
+			<span ng-if='username ==="Will" 'class="header-right glyphicon glyphicon-wrench" aria-hidden="true" ng-click="dateBtnForm.$show()" ng-hide="dateBtnForm.$visible"></span>
 			<div class="foot"><span class="glyphicon glyphicon-time"></span></div>
-			<div class="time">21:00</div>
-			<div class="date">Vendredi <br/>{{tournament.day}} {{tournament.month}} 2014</div> 
+			<div class="time" >21:00</div>
+			<div class="date">Vendredi <br/> <span e-form="dateBtnForm" editable-text="tournament.date" e-datepicker-popup="dd-MMMM-yyyy" onaftersave="saveTournoi()">{{(tournament.date  | date:'dd MMMM yyyy') || 'empty'}}</span></div> 
 		</div>
 		<div class="headerTournament">
 			<div class="foot"><span class="glyphicon glyphicon-map-marker"></span></div>

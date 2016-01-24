@@ -116,7 +116,7 @@ module.exports = function (grunt){
 		},
 
 		watch: {
-			files: ['Gruntfile.js','js/**/*.js', 'css/**/*.css'],
+            files: ['Gruntfile.js', 'js/**/*.js', 'css/**/*.css'],
 			tasks: ['default'],
 			options: {
 				livereload: true,
@@ -126,6 +126,18 @@ module.exports = function (grunt){
 
 
 	grunt.registerTask('default', [
+									'jshint',
+									'clean',
+									'copy',
+									'comments',
+									'cssmin',
+									'uglify',
+    'htmlmin',
+									'watch'
+								]);
+
+
+		grunt.registerTask('build', [
 									'jshint',
 									'clean',
 									'copy',

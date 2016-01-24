@@ -6,14 +6,14 @@
   <div class="list-group ">
 
       <a href="#/TournamentDetails/{{tournament.season}}/{{tournament.episode}}" ng-repeat="tournament in tournaments  " class="list-group-item date-tournoi">
-        <div class="bar"></div>
+        <div ng-class="tournament.end !== '0000-00-00 00:00:00' ? 'bardone' : (tournament.next ? 'baractive' : 'bar')"></div>
           <div class="date">
-            <span class="month">{{tournament.month}}</span> 
-            <span class="day">{{tournament.day}}</span> 
+            <span class="month" >{{tournament.month}}</span> 
+            <span class="day" ng-class="tournament.end !== '0000-00-00 00:00:00' ? 'green' : (tournament.next ? 'blue' : 'grey')">{{tournament.day}}</span> 
           </div>
           
-          <h1 class="towhite">Episode {{tournament.episode}} {{tournament.title}}<span class="badge badgeplayers"> <span class="glyphicon glyphicon-user"> </span>&nbsp;&nbsp;&nbsp;{{tournament.nbplayer}}</span></h1>
-          <p class="location">@{{tournament.lieu}}</p>
+          <h1 class="towhite" >Episode {{tournament.episode}} {{tournament.title}}<span class="badge badgeplayers" ng-class="tournament.end !== '0000-00-00 00:00:00' ? 'green' : (tournament.next ? 'blue' : 'grey')"> <span class="glyphicon glyphicon-user"> </span>&nbsp;&nbsp;&nbsp;{{tournament.nbplayer}}</span></h1>
+          <p class="location" ng-if="tournament.lieu"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> {{tournament.lieu}}</p>
           <!--
          <div ng-controller="chartCtrl" class="pie">
             <div easypiechart options="options" percent='tournament.nbplayers' >{{tournament.nbplayers}}</div>
@@ -22,4 +22,3 @@
       </a>
   </div >
 </div>
- </div>
