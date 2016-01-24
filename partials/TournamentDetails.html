@@ -7,13 +7,13 @@
 
 
 		<div class="headerTournament">
-			<span ng-if='username ==="Will" 'class="header-right glyphicon glyphicon-wrench" aria-hidden="true" ng-click="dateBtnForm.$show()" ng-hide="dateBtnForm.$visible"></span>
+			<span ng-show="currentUserId==10" class="header-right glyphicon glyphicon-wrench" aria-hidden="true" ng-click="dateBtnForm.$show()" ng-hide="dateBtnForm.$visible"></span>
 			<div class="foot"><span class="glyphicon glyphicon-time"></span></div>
 			<div class="time" >21:00</div>
 			<div class="date">Vendredi <br/> <span e-form="dateBtnForm" editable-text="tournament.date" e-datepicker-popup="yyyy-MM-dd" onaftersave="saveTournoi()">{{(tournament.date  | date:'dd MMMM yyyy') || 'empty'}}</span></div> 
 		</div>
 		<div class="headerTournament">
-			<span ng-if='username ==="Will" 'class="header-right glyphicon glyphicon-wrench" aria-hidden="true" ng-click="lieuBtnForm.$show()" ng-hide="lieuBtnForm.$visible"></span>
+			<span ng-show="currentUserId==10" class="header-right glyphicon glyphicon-wrench" aria-hidden="true" ng-click="lieuBtnForm.$show()" ng-hide="lieuBtnForm.$visible"></span>
 			<div class="foot"><span class="glyphicon glyphicon-map-marker"></span></div>
 			<div class="mylocation" ng-show="loggedIn">{{tournament.city}}</div>
 			<div class="myadresse" >Chez <strong><span editable-select="tournament.locid" e-form="lieuBtnForm" onshow="loadLieux()" e-ng-options="s.value as s.text for s in lieux" onaftersave="saveTournoi()">{{ tournament.lieu || 'not set' }} </span></strong> : <span ng-show="loggedIn"> <br/><br/>{{tournament.street}}<br/> {{tournament.plz}} - {{tournament.city}} <br/><br/><span ng-bind-html="tournament.locdescription"></span></span><span ng-show="loggedOut">Connectez vous pour voir l'adresse complète</span></div> 
@@ -21,71 +21,70 @@
 		<div class="headerTournament">
 			<div class="foot"><span class="glyphicon glyphicon-user"></span></div>
 			<div class="recap"><img src="images/bullet_ball_green_16x16_plain.png"/><span class="number green">{{tournament.nbplayer}}</span><span class="description">joueurs présents</span></div> 
-			<div class="recap"><img src="images/bullet_ball_red_16x16_plain.png"/><span class="number amber">{{tournament.nbplayernok}}</span><span class="description">joueurs absents</span></div> 
-			<div class="recap"><img src="images/bullet_ball_grey_16x16_plain.png"/><span class="number grey">{{tournament.nbuser}}</span><span class="description">joueurs sans réponse</span></div> 
+						<div class="myadresse" ng-show="loggedOut">Connectez vous pour répondre</div> 
+			<div ><button type="button" ng-if="tournament.infutur !== 0" class="btn buttonpresence btn-success" ng-class="{'disabled': tournament.infutur == 0 || loggedOut }" ng-click="ReponsePlayer(currentUserId,'OK')">Je serais présent</button></div> 
+			<div ><button type="button" ng-if="tournament.infutur !== 0" class="btn buttonpresence btn-warning" ng-class="{'disabled': tournament.infutur == 0 || loggedOut }" ng-click="ReponsePlayer(currentUserId,'')">Je serais absent</button></div> 
 		</div>
-		<div class="headerTournament">
-			<div class="foot"><span class="glyphicon glyphicon-question-sign"></span></div>
-			<div class="myadresse" ng-show="loggedOut">Connectez vous pour répondre</div> 
-			<div ><button type="button" class="btn buttonpresence btn-success" ng-class="{'disabled': tournament.infutur == 0 || loggedOut }" ng-click="ReponsePlayer(currentUserId,'OK')">Je serais présent</button></div> 
-			<div ><button type="button" class="btn buttonpresence btn-warning" ng-class="{'disabled': tournament.infutur == 0 || loggedOut }" ng-click="ReponsePlayer(currentUserId,'NOK')">Je serais absent</button></div> 
-			<div ><button type="button" class="btn buttonpresence btn-default" ng-class="{'disabled': tournament.infutur == 0 || loggedOut }" ng-click="ReponsePlayer(currentUserId,'')">Je ne sais pas</button></div> 
-		</div>
-		<div class="headerTournament">
-			<div class="foot"><span class="glyphicon glyphicon-map-marker"></span></div>
-			<div class="mylocation">Live</div>			
-			<div class="myadresse"><span class="glyphicon glyphicon-play mystart" ng-show="currentUserId==10" ng-click="LiveOn(currentUserId, eventId)"> Commencer le tournoi<br></span><span class="myadresse"><br>Début : {{tournament.start}}<br>Fin : {{tournament.end}}</span></div> 
-			
-		</div>
-		<div class="headerTournament">
-			<div class="foot"><span class="glyphicon glyphicon-map-marker"></span></div>
-			<div class="mylocation">Vainqueur</div>
-			<div class="myadresse"><span ng-show="blnvainqueur == false">En attente résultat</span><strong> {{vainqueur}}</strong></div> 
-			<div class="circular" style="background: url({{vainqueuravatar}}) no-repeat;"></div>
 
-		</div>
-		<div class="headerTournament">
-			<div class="foot"><span class="glyphicon glyphicon-map-marker"></span></div>
-			<div class="mylocation">Performance</div>
-			<div class="myadresse" ng-show="blnvainqueur == false">En attente résultat</div> 
-			<div class="myadresse" ng-show="blnvainqueur">
-				<div class="performancediv" ng-controller="chartCtrl">
-    				<span class="performancetotal">{{tournament.nbplayer}}</span>
-    				<span class="performance">{{myPlayer.rank}}</span>
-    				<div easypiechart options="options" percent="percent"></div>
-				</div>
-			</div> 
-
-
-		</div>
-	</div>
-
-	<div id="classement" ng-class="{hidden: menuDetails!=='Classement'}">
 		<table class="table table-condensed table-player" >
 			<thead>
 				<tr>
-					<th class="th-player">#</th>
+					<th class="th-player" ng-if="tournament.start !== '0000-00-00 00:00:00'">#</th>
 					<th class="th-player"></th>
 					<th class="th-player">Joueur</th>
-					<th class="th-player">Points</th>
-					<th class="th-player">kill</th>
-					<th class="th-player">Gains</th>
-					<th class="th-player">RoundOut</th>
+					<th class="th-player" ng-if="tournament.infutur == 0">Points</th>
+					<th class="th-player" ng-if="tournament.infutur == 0">Gains</th>
+					<th class="th-player" ng-if="tournament.infutur == 0">kill</th>
+					<th class="th-player" ng-show="currentUserId==10"></th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="player in players  | orderBy:-notes">
-					<td class="td-player rank">
-						<img ng-show="loggedOut" ng-src="images/bullet_ball_{{player.notes}}_16x16_plain.png" /> 
-						<img ng-show="loggedIn" ng-src="images/bullet_ball_{{player.notes}}_16x16_plain.png" ng-click="ReponsePlayer(player.id_user, player.notes, player)"/> 
-						<span ng-show="player.rank >0"> {{player.rank}}</span>
+				<tr ng-repeat="player in players | filter:{ notes: 'OK' } | orderBy:rank">
+					<td class="td-player rank" ng-if="tournament.start !== '0000-00-00 00:00:00'">
+						<span> {{player.rank}}</span>
 					</td>
 					<td class="td-player rank"> <img class="avatar" ng-src="{{player.avatar}}"></td>
 					<td class="td-player"><h3>{{player.username}}  </h3> <!-- {{player.id_player}} --></td>
-					<td class="td-player"><h4 class="Totalpts">{{player.tournamentpts}}</h4></td>
-					<td class="td-player">{{player.knockouts}} </td>
-						<td class="td-player"><span ng-show="player.payout > 0 ">{{player.payout}}€</span></td>
-					<td class="td-player">{{player.roundout}}</td>
+					<td class="td-player" ><h4 class="Totalpts">{{player.tournamentpts}}</h4></td>
+					<td class="td-player" ng-if="tournament.infutur == 0"><span ng-show="player.payout > 0 ">{{player.payout}}€</span></td>
+					<td class="td-player" ng-if="tournament.infutur == 0">{{player.knockouts}} </td>
+					<td class="td-player" ng-show="currentUserId==10" ng-if="tournament.infutur !== 0"><span class="btn btn-danger" ng-click="ReponsePlayer(player.id_user, player.notes, player)">Retirer</span></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="headerTournament" style="width:100%"  ng-show="currentUserId==10">
+			<div class="foot"><span class="glyphicon glyphicon-map-marker"></span></div>
+			<div class="mylocation blue">Admin</div>			
+			<div class="myadresse">
+				<span class="btn btn-default btn-xs glyphicon glyphicon-play mystart" ng-show="currentUserId==10" ng-click="LiveOn(currentUserId, eventId)"> Commencer le tournoi</span>
+				<span class="btn btn-default btn-xs glyphicon glyphicon-play mystart" ng-show="currentUserId==10" ng-click="ReCalculate()"> Recalculer le tournoi</span>
+			</div> 
+			
+		</div>
+
+		</div>
+
+	<div id="classement" ng-class="{hidden: menuDetails!=='Classement'}">
+				<table class="table table-condensed table-player" >
+			<thead>
+				<tr>
+					<th class="th-player"></th>
+					<th class="th-player">Joueur</th>
+					<th class="th-player" ng-if="tournament.infutur == 0">Points</th>
+					<th class="th-player" ng-if="tournament.infutur == 0">kill</th>
+					<th class="th-player" ng-if="tournament.infutur == 0">Gains</th>
+					<th class="th-player" ng-show="currentUserId==10"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="player in players | filter:{ notes: '!OK' } | orderBy:username">
+					<td class="td-player rank"> <img class="avatar" ng-src="{{player.avatar}}"></td>
+					<td class="td-player"><h3>{{player.username}}  </h3> <!-- {{player.id_player}} --></td>
+					<td class="td-player" ng-if="tournament.infutur == 0"><h4 class="Totalpts">{{player.tournamentpts}}</h4></td>
+					<td class="td-player" ng-if="tournament.infutur == 0">{{player.knockouts}} </td>
+					<td class="td-player" ng-if="tournament.infutur == 0"><span ng-show="player.payout > 0 ">{{player.payout}}€</span></td>
+					<td class="td-player" ng-show="currentUserId==10" ng-if="tournament.infutur !== 0"><span class="btn btn-success" ng-click="ReponsePlayer(player.id_user, player.notes, player)">Ajouter</span></td>
 				</tr>
 			</tbody>
 		</table>
@@ -106,7 +105,7 @@
 </div>
 
 <nav class="navbottom" >
-	<a href="#/TournamentDetails/{{seasonId}}/{{episodeId}}"  ng-click="menuDetails='Classement'" ng-class="{active: menuDetails=='Classement'}"><span class="glyphicon glyphicon-sort-by-order"></span> Classement</a>
+	<a href="#/TournamentDetails/{{seasonId}}/{{episodeId}}"  ng-click="menuDetails='Classement'" ng-class="{active: menuDetails=='Classement'}"><span class="glyphicon glyphicon-sort-by-order"></span> Joueurs</a>
 	<a href="#/TournamentDetails/{{seasonId}}/{{episodeId}}"  ng-click="menuDetails='Resume'" ng-class="{active: menuDetails=='Resume'}"><span class="glyphicon glyphicon-star"> </span> Résumé</a>
 	<a href="#/TournamentDetails/{{seasonId}}/{{episodeId}}"  ng-click="menuDetails='Details'" ng-class="{active: menuDetails=='Details'}"><span class="glyphicon glyphicon-list-alt"> </span> Détails</a>
 </nav>

@@ -57,22 +57,6 @@ app.controller('TournamentDetailsCtrl', function($scope, $http, $routeParams, $l
             /* On va ensuite chercher les joueurs */
             $http.get('php/Tournament.php?action=Tournament&Info=Players&eventId=' + $scope.eventId).success(function(data) {
                 $scope.players = data;
-
-                $scope.blnvainqueur = false;
-                if ($scope.players[0].rank == 1) {
-                    $scope.blnvainqueur = true;
-                    $scope.vainqueur = $scope.players[0].username;
-                    $scope.vainqueuravatar = $scope.players[0].avatar;
-                }
-
-                /* mise en cache des infos du joueur */
-                angular.forEach($scope.players, function(value, key) {
-                    if (value.id_user == $scope.currentUserId) {
-                        this.push(value);
-                    }
-                }, $scope.myPlayer);
-                $scope.myPlayer = $scope.myPlayer[0];
-                $scope.percent = ($scope.tournament.nbplayer - $scope.myPlayer.rank + 1) / $scope.tournament.nbplayer * 100;
             });
 
             /* On va ensuite chercher les commentaires */
@@ -96,56 +80,62 @@ app.controller('TournamentDetailsCtrl', function($scope, $http, $routeParams, $l
 
 
     $scope.ReponsePlayer = function(playerId, reponse, player) {
-
         if (typeof player !== 'undefined') {
             switch (reponse) {
                 case null:
-                    player.notes = 'OK';
-                    break;
                 case '':
                     player.notes = 'OK';
                     break;
                 case 'OK':
-                    player.notes = 'NOK';
-                    break;
-                case 'NOK':
                     player.notes = '';
                     break;
                 default:
                     player.notes = '';
                     break;
             }
+            console.log('reponse', reponse);
+            console.log('player.notes', player.notes);
+            console.log('player', player);
             $scope.reponse = player.notes;
-            $scope.username = $scope.username;
+            $scope.playerName = player.username;
         } else {
             $scope.playerName = $scope.username;
             $scope.reponse = reponse;
         }
 
         switch ($scope.reponse) {
-            case '':
-                $scope.comment = $scope.username + " ne sait pas s il viendra";
-                break;
             case 'OK':
-                $scope.comment = $scope.username + " sera present";
+                $scope.comment = $scope.playerName + " sera present";
                 break;
-            case 'NOK':
-                $scope.comment = $scope.username + " sera absent";
+            case '':
+            case null:
+                $scope.comment = $scope.playerName + " sera absent";
                 break;
             default:
-                $scope.comment = $scope.username + " action inconnue";
+                $scope.comment = $scope.playerName + " action inconnue";
                 break;
         }
+        console.log('$scope.reponse', $scope.reponse);
 
         $http.get('php/Tournament.php?action=Tournament&Info=addPlayer&playerId=' + playerId + '&eventId=' + $scope.eventId + '&Presence=' + $scope.reponse).success(function(data) {
 
             /* On le note dans les commentaires */
-            $http.get('php/Comment.php?action=Add&Info=OnePost&userId=' + playerId + '&eventId=' + $scope.eventId + '&details=' + $scope.comment).success(function(data) {});
+            $http.get('php/Comment.php?action=Add&Info=OnePost&userId=' + $scope.currentUserId + '&eventId=' + $scope.eventId + '&details=' + $scope.comment).success(function(data) {});
 
             createAutoClosingAlert("#alert-message", 2000);
             $scope.LoadTournoi();
         });
 
+    };
+
+    $scope.ReCalculate = function() {
+
+        $http.get('php/Tournament.php?action=Tournament&Info=recalculer&eventId=' + $scope.eventId).success(function(data) {
+            /* On le note dans les commentaires */
+            $http.get('php/Comment.php?action=Add&Info=OnePost&userId=' + $scope.currentUserId + '&eventId=' + $scope.eventId + '&details=Le tournoi a été recalculé').success(function(data) {
+
+            });
+        });
     };
 
     $scope.LiveOn = function(playerId, tournoiId) {

@@ -23,7 +23,7 @@ error_reporting(E_ALL);
 			count(p.id_player) as nbplayer
 			FROM events as ev
 			LEFT JOIN lieux  as l ON ev.locid = l.id
-			LEFT JOIN pokerpoints  as p ON ev.id = p.id_event AND p.notes <>'NOK'
+			LEFT JOIN pokerpoints  as p ON ev.id = p.id_event AND p.notes ='OK'
 			WHERE ev.season=" . $activeseason . "
 			GROUP BY ev.id
 			ORDER BY ev.season, ev.episode
@@ -63,7 +63,7 @@ error_reporting(E_ALL);
 			FROM pokerpoints as p
 			LEFT JOIN users as u ON p.id_player = u.id
 			RIGHT JOIN events   as ev ON ev.id = p.id_event AND ev.season = ". $_GET['season'] . " and ev.episode =" . $_GET['episode']  . "
-			WHERE p.notes <>'NOK' 
+			WHERE p.notes ='OK' 
 			ORDER by p.rank");
 		}
 
@@ -92,6 +92,70 @@ error_reporting(E_ALL);
 			$blnquery = false;
 			$arr = array("Insert with success");
 		}
+
+
+		if ($_GET["Info"]=="recalculer") {
+			$eventid=$_GET["eventId"];
+
+			/*on calcule son rang */
+			/***********************/
+			$conn = new mysqli('localhost','root','','mypokerleague');
+			$sql = "SELECT * FROM pokerpoints WHERE id_event = " . $eventid ." AND buyin > 0 ";
+			$result = $conn->query($sql);
+			var_dump($result->num_rows);
+			if ($result->num_rows > 0) {
+			// output data of each row
+			while($row = $result->fetch_assoc()) {
+
+				$rank = $row['rank'];
+				$playerId = $row['id_player'];
+
+				/*on calcule son score */
+				/***********************/
+				$rs = mysql_query("SELECT count(*) as nbplayer, sum(buyin) as pot FROM pokerpoints WHERE id_event = " . $eventid ." AND buyin > 0 ");
+				$row2 = mysql_fetch_row($rs);
+				$nbplayer = $row2[0];
+				$pot = ($row2[1] *($nbplayer-1)/$nbplayer) * 0.85; /* hote gratuit + 15% pour le championnat */
+
+				$rs = mysql_query("SELECT knockouts FROM pokerpoints WHERE id_event = " . $eventid . " AND id_player =" . $playerId );
+				$row3 = mysql_fetch_row($rs);
+				$knockouts = $row3[0];
+
+				$score = intval(500*$nbplayer* pow(0.7, $rank)+100*$knockouts) ;
+
+				/*on calcule son argent */
+				/***********************/
+
+				$money = 0;
+				switch ($rank) {
+				    case 1:
+				        $money = 5 * round($pot * 0.58/ 5); ;
+				        break;
+				    case 2:
+				        $money = 5 * round($pot * 0.29/ 5); ;
+				        break;
+				    case 3:
+				        $money = 5 * round($pot * 0.13/ 5); ;
+				        break;
+				}			
+
+
+				/*on effectue la mise à jour */
+				/***********************/
+				$query = "UPDATE pokerpoints SET tournamentpts =  " . $score . ", payout= " . $money . ", knockouts= " . $knockouts . " WHERE id_event = " . $eventid . " AND id_player =" . $playerId ;
+				var_dump($query);
+				$rs = mysql_query($query);
+
+			    }
+			} else {
+			    echo "0 results";
+			}
+			$conn->close();
+
+			$blnquery = false;
+			$arr = $row;
+		}
+
 	}
 
 	if ($blnquery) {
