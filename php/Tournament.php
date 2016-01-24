@@ -9,6 +9,9 @@ if(isset($_GET["action"])) {
     mysql_query("SET @@lc_time_names = 'fr_FR'");
 	mysql_query("SET character_set_results = 'utf8', character_set_client = 'utf8', character_set_connection = 'utf8', character_set_database = 'utf8', character_set_server = 'utf8'");
 
+ini_set('display_errors',1);
+error_reporting(E_ALL);
+
 	$blnquery = true;
 
 	$arr = array();
@@ -16,7 +19,7 @@ if(isset($_GET["action"])) {
 	if ($_GET["action"]=="TournamentList") {
 		$activeseason=$_GET["activeseason"];
 		$rs = mysql_query("SELECT ev.*, 
-			ev.dates as date, monthname(ev.dates) as month, day(ev.dates) as day,l.alias as lieu, l.street, l.plz, l.city, IF(ev.dates > Date(NOW()), 1, 0) as infutur, 
+			ev.dates as date, monthname(ev.dates) as month, day(ev.dates) as day,ev.locid,l.venue as lieu, l.street, l.plz, l.city,l.locdescription, IF(ev.dates > Date(NOW()), 1, 0) as infutur, 
 			count(p.id_player) as nbplayer
 			FROM events as ev
 			LEFT JOIN lieux  as l ON ev.locid = l.id
@@ -27,12 +30,16 @@ if(isset($_GET["action"])) {
 			");
 	}
 
+	if ($_GET["action"]=="Lieux") {
+		$rs = mysql_query("SELECT * FROM lieux ");
+	}
+
 
 	if ($_GET["action"]=="Tournament") {
 
 		if ($_GET["Info"]=="Details") {
 		$rs = mysql_query("SELECT ev.*, 
-			ev.dates as date, monthname(ev.dates) as month, day(ev.dates) as day,l.alias as lieu, l.street, l.plz, l.city, IF(ev.dates > Date(NOW()), 1, 0) as infutur, 
+			ev.dates as date, monthname(ev.dates) as month, day(ev.dates) as day,ev.locid, l.venue as lieu, l.street, l.plz, l.city, l.locdescription,IF(ev.dates > Date(NOW()), 1, 0) as infutur, 
 			COALESCE(p.nbplayer,0) as nbplayer, COALESCE(p2.nbplayernok,0) as nbplayernok, ((SELECT count(id) from users WHERE Actif =1) - COALESCE(p.nbplayer,0) - COALESCE(p2.nbplayernok,0)) as nbuser
 			FROM events as ev
 			LEFT JOIN lieux  as l ON ev.locid = l.id
@@ -78,9 +85,10 @@ if(isset($_GET["action"])) {
 
 			$postdata = file_get_contents("php://input");
 			$request = json_decode($postdata);
-var_dump($request);
-			//$rs = mysql_query("DELETE FROM pokerpoints WHERE id_event= " . $eventid . " and id_player = " . $playerId);
-			//$rs = mysql_query("INSERT INTO pokerpoints (id_event, id_player, notes, registerdate) VALUES ('$eventid','$playerId','$notes',now())");
+
+			$sql = "UPDATE events SET locid = ". $request->locid   .", dates = '" . date('Y-m-d', strtotime($request->date)) . "' WHERE episode= " . $eventid . " and season = " . $seasonid;
+			var_dump($sql);
+			$rs = mysql_query($sql) or trigger_error(mysql_error()." ".$sql);
 			$blnquery = false;
 			$arr = array("Insert with success");
 		}

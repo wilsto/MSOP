@@ -1,4 +1,4 @@
-app.controller('TournamentDetailsCtrl', function($scope, $http, $routeParams, $location) {
+app.controller('TournamentDetailsCtrl', function($scope, $http, $routeParams, $location, $filter) {
 
     $scope.currentUserId = $scope.userId;
 
@@ -9,8 +9,46 @@ app.controller('TournamentDetailsCtrl', function($scope, $http, $routeParams, $l
     $scope.seasonId = $routeParams.seasonId;
     $scope.episodeId = $routeParams.episodeId;
 
+    $scope.showLieux = function() {
+        var selected = $filter('filter')($scope.lieux, {
+            value: $scope.tournament.locid
+        });
+        return ($scope.tournament.locid && selected.length) ? selected[0].text : 'Not set';
+    };
+
+    $scope.lieux = [];
+    $scope.loadLieux = function() {
+        return $scope.lieux.length ? null : $http.get('php/Tournament.php?action=Lieux').success(function(data) {
+            $scope.lieux = [];
+            angular.forEach(data, function(value, key) {
+                $scope.lieux.push({
+                    value: value.id,
+                    text: value.venue,
+                    city: value.city,
+                    street: value.street,
+                    plz: value.plz,
+                    locdescription: value.locdescription
+                });
+            });
+        });
+    };
+
+    $scope.$watch('tournament.locid', function(newVal, oldVal) {
+        if (newVal !== oldVal) {
+            var selected = $filter('filter')($scope.lieux, {
+                value: $scope.tournament.locid
+            });
+            $scope.tournament.lieu = selected.length ? selected[0].text : $scope.tournament.lieu;
+            $scope.tournament.city = selected.length ? selected[0].city : $scope.tournament.city;
+            $scope.tournament.street = selected.length ? selected[0].street : $scope.tournament.street;
+            $scope.tournament.plz = selected.length ? selected[0].plz : $scope.tournament.plz;
+            $scope.tournament.locdescription = selected.length ? selected[0].locdescription : $scope.tournament.locdescription;
+        }
+    });
 
     $scope.LoadTournoi = function() {
+
+
         $http.get('php/Tournament.php?action=Tournament&Info=Details&season=' + $scope.seasonId + '&episode=' + $scope.episodeId).success(function(data) {
             $scope.tournament = data[0];
             $scope.btndisabled = ($scope.tournament.infutur) ? "" : "Disabled";
@@ -43,13 +81,15 @@ app.controller('TournamentDetailsCtrl', function($scope, $http, $routeParams, $l
             });
 
         });
+
+
     };
 
     $scope.LoadTournoi();
 
 
     $scope.saveTournoi = function() {
-        $http.post('php/Tournament.php?action=Tournament&Info=SaveTournoi&season=' + $scope.seasonId + '&episode=' + $scope.episodeId, $scope.tournament).success(function(data) {
+        $http.post('php/Tournament.php?action=Tournament&Info=saveTournoi&season=' + $scope.seasonId + '&episode=' + $scope.episodeId, $scope.tournament).success(function(data) {
 
         });
     };

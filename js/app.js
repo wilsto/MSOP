@@ -1,4 +1,4 @@
-var app = angular.module('MSOP', ['ngRoute', 'ngAnimate', 'easypiechart', 'ui.bootstrap', 'xeditable']);
+var app = angular.module('MSOP', ['ngRoute', 'ngSanitize', 'ngAnimate', 'easypiechart', 'ui.bootstrap', 'xeditable']);
 
 app.config(['$routeProvider',
     function($routeProvider) {

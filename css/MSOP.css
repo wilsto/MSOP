@@ -726,7 +726,7 @@ TRANSITION PAGE
     .date-left { width: 50px }
     .date-left .month { font-size: 10px; width: 49px; }
     .date-left .day { font-size: 28px; width: 49px; }
-    .headerTournament { width: 47% }
+    .headerTournament { width: 95% }
     .headerTournament .date { font-size: 24px }
     .btn-play {margin : 5px 0; width: 49%!important; height: 50px!important; font-size: 12px!important; bottom:0; }
 }
