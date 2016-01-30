@@ -79,7 +79,15 @@
 
 <div id="Live" class="panel2">
 	<div class="headerMSOP">
-		<h1> Tournoi Live  <small ng-show="liveOn">Saison {{tournament.season}} Episode {{tournament.episode}} </small></h1>
+		<h1> Tournoi Live  <small ng-show="liveOn">Saison {{tournament.season}} Episode {{tournament.episode}} </small>
+		<div style="float:right;padding-right:25px">
+			 <button type="button" class="btn btn-xs btn-success" data-toggle="modal" data-target="#ModalStart" ng-show="tournament.leveltime == tournament.end"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Démarrer </button>
+			<button type="button" class="btn btn-xs btn-Warning" data-toggle="modal" data-target="#ModalReset"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Reset</button>
+			<button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#ModalEnd" ng-show="tournament.leveltime > tournament.end"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Terminer </button>
+		</div>
+
+		</h1>
+
 	</div>
 
 	<div class="liveOff" ng-show="liveOff">
@@ -87,23 +95,21 @@
 	</div>
 	<div class="alert alert-success"  id="alert-message" style="display:none;">Action enregistrée</div>
 	<div class="liveOn" ng-show="liveOn">
-		<div id="Resume" ng-class="{hidden: menuLive!=='Resume'}">
-						<div class="btn-play-all">
-					<button type="button" class="btn btn-play btn-success" data-toggle="modal" data-target="#ModalStart" ng-show="tournament.leveltime == tournament.end"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Démarrer le tournoi</button>
-					<button type="button" class="btn btn-play btn-danger" data-toggle="modal" data-target="#ModalEnd" ng-show="tournament.leveltime > tournament.end"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Marquer la fin du tournoi </button>
-					<button type="button" class="btn btn-play btn-Warning" data-toggle="modal" data-target="#ModalReset"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Reset</button>
 
-				</div>
-			<div class="rounds">
-				<div ><h1 class="blind">{{currentlevel.smallblind}}</h1><span class="nextblindsmall">{{nextlevel.smallblind}}</span></div>
-				<div class="round"><h1 class="roundnumber">{{currentlevel.level}}</h1>{{currentlevel.typelevel}}</div>
-				<div ><h1 class="blind">{{currentlevel.bigblind}}</h1><span class="nextblindbig">{{nextlevel.bigblind}}</span></div>
-			</div>
 
-				<div class="btn-level">
-					<button type="button" class=" btn-live btn-round" ng-click="followlevel='previous'"  data-toggle="modal" data-target="#ModalRound"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Round -</button>
-					<button type="button" class="btn-live btn-round" ng-click="followlevel='next'"  data-toggle="modal" data-target="#ModalRound"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Round +</button>
-				</div>
+
+	<div class="row">
+	   <!-- Partie Gauche -->
+	  <div class="col-lg-9 col-md-8 col-xs-12">
+		<!-- Columns are always 50% wide, on mobile and desktop -->
+	  	<div class="round">{{currentlevel.typelevel}} {{currentlevel.level}}</div>		
+	  	<!-- Columns are always 50% wide, on mobile and desktop -->
+		<div class="row">
+		  <div class="col-md-7 col-xs-12">
+<!-- 		  <div class="timer">
+<timer interval="1000" countdown="69" max-time-unit="'minute'"> {{mminutes}}:{{sseconds}} </timer>
+</div> -->
+
 
 			<div class="clock">
 				<!-- Minutes -->
@@ -134,14 +140,81 @@
 				<!-- Seconds -->
 
 			</div>
-			<div class="clearfix"></div>
+
+		  </div>
+		  <div class="col-md-5 col-xs-12">
+		  	<div class="rounds">
+				<div ><h1 class="blind">{{currentlevel.smallblind}}<small> - </small>{{currentlevel.bigblind}}</h1></div>
+				<div> 
+					<br/>Stack Moyen : 15 000
+					<br/>PrizePool : 120 €
+
+				</div>
+			</div>
+		  </div>
+		</div>
+	<!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
+	<div class="row">
+	  <div class="col-xs-6 col-md-2">
+
+	  		
+	  </div>
+	  <div class="col-xs-6 col-md-8">
 				<div class="btn-level">
+					<button type="button" class=" btn-live btn-round" ng-click="followlevel='previous'"  data-toggle="modal" data-target="#ModalRound"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Round -</button>
+
 					<button type="button" class="btn btn-liveplay" ng-click="PlayGame()" ng-show="tournament.lastpause !=='0000-00-00 00:00:00'"><span class="glyphicon glyphicon-play"></span></button>
 					<button type="button" class="btn btn-liveplay" ng-click="PauseGame()" ng-show="tournament.leveltime !=='0000-00-00 00:00:00' && tournament.lastpause == '0000-00-00 00:00:00'"><span class="glyphicon glyphicon-pause"></span></button>
-				</div>
-		</div>
 
-		<div id="classement" ng-class="{hidden: menuLive!=='Classement'}">
+					<button type="button" class="btn-live btn-round" ng-click="followlevel='next'"  data-toggle="modal" data-target="#ModalRound"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Round +</button>
+				</div>
+	  </div>
+	  <div class="col-xs-6 col-md-2">.col-xs-6 .col-md-4</div>
+	</div>
+
+<table class="table table-condensed table-player" >
+				<thead>
+					<tr>
+						<th class="th-player">#</th>
+						<th class="th-player"></th>
+						<th class="th-player">Joueur</th>
+						<th class="th-player">Points</th>
+						<th class="th-player">kill</th>
+						<th class="th-player">Gains</th>
+						<th class="th-player">RoundOut</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="player in players | orderBy:['-notes','rank','username']">
+						<td class="td-player bartd rank">
+							<img ng-src="images/bullet_ball_{{player.notes}}_16x16_plain.png" ng-click="ReponsePlayer(player.id_user, player.notes, player)"/> 
+							<span  ng-show="player.rank >0"> {{player.rank}}</span>
+						</td>
+						<td class="td-player rank"> <img class="avatar"  ng-src="{{player.avatar}}"></td>
+						<td class="td-player">
+							<h3>{{player.username}} 
+
+								<!-- POur buyin le joueur -->
+								<span ng-show="(player.buyin < 1)" ng-click="buyIn(player)" class="badge badgeplayers buyIn"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;&nbsp;Buyin</span>
+
+								<!-- Pour kicker le joueur -->
+								<span ng-show="(player.buyin > 0) && (player.rank < 1)" ng-click="kicker(player)" class="badge badgeplayers kicker"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;&nbsp;KnockOut</span>
+
+							</h3>
+						</td>
+						<td class="td-player"><h4 class="Totalpts">{{player.tournamentpts}}</h4></td>
+						<td class="td-player">{{player.knockouts}} </td>
+						<td class="td-player">{{player.payout}} <span ng-show="player.payout > 0 ">€</span></td>
+						<td class="td-player">{{player.roundout}}</td>
+					</tr>
+				</tbody>
+			</table>
+
+
+  </div>
+
+   <!-- Partie Droite : Liste des joueurs-->
+  <div class="col-lg-3 col-md-4 col-xs-12">
 			<table class="table table-condensed table-player" >
 				<thead>
 					<tr>
@@ -179,6 +252,25 @@
 					</tr>
 				</tbody>
 			</table>
+  </div>
+</div>
+
+
+
+		<div id="Resume" ng-class="{hidden: menuLive!=='Resume'}">
+						<div class="btn-play-all">
+					
+					
+					
+
+				</div>
+			
+
+
+
+
+
+				
 		</div>
 
 		<div id="Details" ng-class="{hidden: menuLive!=='Details'}">
