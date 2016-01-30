@@ -64,6 +64,7 @@ module.exports = function(grunt) {
                         'dist/build/css/MSOP.css',
                         'dist/build/css/jbclock.css',
                         'bower_components/angular-xeditable/dist/css/xeditable.css',
+                        'bower_components/nsPopover/src/nsPopover.css'
                     ]
                 }
             }
@@ -87,7 +88,8 @@ module.exports = function(grunt) {
                         'bower_components/momentjs/min/moment.min.js',
                         'bower_components/momentjs/min/locales.min.js',
                         'bower_components/humanize-duration/humanize-duration.js',
-                        'bower_components/angular-timer/dist/angular-timer.js'
+                        'bower_components/angular-timer/dist/angular-timer.js',
+                        'bower_components/nsPopover/src/nsPopover.js'
                     ]
                 }
             }

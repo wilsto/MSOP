@@ -148,7 +148,15 @@
 				<div> 
 					<br/>Stack Moyen : 15 000
 					<br/>PrizePool : 120 €
+					<br/>
+<div class="btn-level">
+					<button type="button" class=" btn-live btn-round" ng-click="followlevel='previous'"  data-toggle="modal" data-target="#ModalRound"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Round -</button>
 
+					<button type="button" class="btn btn-liveplay" ng-click="PlayGame()" ng-show="tournament.lastpause !=='0000-00-00 00:00:00'"><span class="glyphicon glyphicon-play"></span></button>
+					<button type="button" class="btn btn-liveplay" ng-click="PauseGame()" ng-show="tournament.leveltime !=='0000-00-00 00:00:00' && tournament.lastpause == '0000-00-00 00:00:00'"><span class="glyphicon glyphicon-pause"></span></button>
+
+					<button type="button" class="btn-live btn-round" ng-click="followlevel='next'"  data-toggle="modal" data-target="#ModalRound"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Round +</button>
+				</div>
 				</div>
 			</div>
 		  </div>
@@ -160,52 +168,28 @@
 	  		
 	  </div>
 	  <div class="col-xs-6 col-md-8">
-				<div class="btn-level">
-					<button type="button" class=" btn-live btn-round" ng-click="followlevel='previous'"  data-toggle="modal" data-target="#ModalRound"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Round -</button>
-
-					<button type="button" class="btn btn-liveplay" ng-click="PlayGame()" ng-show="tournament.lastpause !=='0000-00-00 00:00:00'"><span class="glyphicon glyphicon-play"></span></button>
-					<button type="button" class="btn btn-liveplay" ng-click="PauseGame()" ng-show="tournament.leveltime !=='0000-00-00 00:00:00' && tournament.lastpause == '0000-00-00 00:00:00'"><span class="glyphicon glyphicon-pause"></span></button>
-
-					<button type="button" class="btn-live btn-round" ng-click="followlevel='next'"  data-toggle="modal" data-target="#ModalRound"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Round +</button>
-				</div>
+				
 	  </div>
 	  <div class="col-xs-6 col-md-2">.col-xs-6 .col-md-4</div>
 	</div>
 
-<table class="table table-condensed table-player" >
+<table class="table table-condensed table-level" >
 				<thead>
 					<tr>
-						<th class="th-player">#</th>
-						<th class="th-player"></th>
-						<th class="th-player">Joueur</th>
-						<th class="th-player">Points</th>
-						<th class="th-player">kill</th>
-						<th class="th-player">Gains</th>
-						<th class="th-player">RoundOut</th>
+						<th class="th-level">#</th>
+						<th class="th-level">Round</th>
+						<th class="th-level">Small Blind</th>
+						<th class="th-level">Big Bling</th>
+						<th class="th-level">Durée</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="player in players | orderBy:['-notes','rank','username']">
-						<td class="td-player bartd rank">
-							<img ng-src="images/bullet_ball_{{player.notes}}_16x16_plain.png" ng-click="ReponsePlayer(player.id_user, player.notes, player)"/> 
-							<span  ng-show="player.rank >0"> {{player.rank}}</span>
-						</td>
-						<td class="td-player rank"> <img class="avatar"  ng-src="{{player.avatar}}"></td>
-						<td class="td-player">
-							<h3>{{player.username}} 
-
-								<!-- POur buyin le joueur -->
-								<span ng-show="(player.buyin < 1)" ng-click="buyIn(player)" class="badge badgeplayers buyIn"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;&nbsp;Buyin</span>
-
-								<!-- Pour kicker le joueur -->
-								<span ng-show="(player.buyin > 0) && (player.rank < 1)" ng-click="kicker(player)" class="badge badgeplayers kicker"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;&nbsp;KnockOut</span>
-
-							</h3>
-						</td>
-						<td class="td-player"><h4 class="Totalpts">{{player.tournamentpts}}</h4></td>
-						<td class="td-player">{{player.knockouts}} </td>
-						<td class="td-player">{{player.payout}} <span ng-show="player.payout > 0 ">€</span></td>
-						<td class="td-player">{{player.roundout}}</td>
+					<tr ng-repeat="level in levels | orderBy:['level']" ng-class="{'level-active':level.level=== currentlevel.level,'level-pause':level.typelevel=== 'Pause'}">
+						<td class="td-level">{{level.level}}</td>
+						<td class="td-level"> {{level.typelevel}}</td>
+						<td class="td-level"> {{level.smallblind}}</td>
+						<td class="td-level"> {{level.bigblind}}</td>
+						<td class="td-level"> {{level.time}}:00</td>
 					</tr>
 				</tbody>
 			</table>
@@ -228,22 +212,41 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="player in players | orderBy:['-notes','rank','username']">
+					<tr ng-repeat="player in players | filter:{ notes: 'OK' } | orderBy:['-notes','rank','username']">
 						<td class="td-player bartd rank">
+
 							<img ng-src="images/bullet_ball_{{player.notes}}_16x16_plain.png" ng-click="ReponsePlayer(player.id_user, player.notes, player)"/> 
 							<span  ng-show="player.rank >0"> {{player.rank}}</span>
+							<br/>
+
+													<button class="btn-xs" ns-popover
+  ns-popover-template="popover"
+  ns-popover-trigger="click"
+  ns-popover-placement="left"
+  ns-popover-theme="ns-popover-list-theme">
+    <span class="glyphicon glyphicon-cog" style="color:black"></span>
+</button>
 						</td>
 						<td class="td-player rank"> <img class="avatar"  ng-src="{{player.avatar}}"></td>
 						<td class="td-player">
 							<h3>{{player.username}} 
 
-								<!-- POur buyin le joueur -->
-								<span ng-show="(player.buyin < 1)" ng-click="buyIn(player)" class="badge badgeplayers buyIn"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;&nbsp;Buyin</span>
-
-								<!-- Pour kicker le joueur -->
-								<span ng-show="(player.buyin > 0) && (player.rank < 1)" ng-click="kicker(player)" class="badge badgeplayers kicker"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;&nbsp;KnockOut</span>
+								
 
 							</h3>
+		<script type="text/ng-template" id="popover">			
+  <ul>
+  	<!-- POur buyin le joueur -->
+    <li ng-show="(player.buyin < 1)">
+		<span  ng-click="buyIn(player)" class="buyIn"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;&nbsp;Buyin</span>					
+    </li>
+    <!-- Pour kicker le joueur -->
+    <li ng-show="(player.buyin > 0) && (player.rank < 1)">
+		<span  ng-click="kicker(player)" class="kicker"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;&nbsp;KnockOut</span>
+    </li>
+  </ul>
+</script>
+
 						</td>
 						<td class="td-player"><h4 class="Totalpts">{{player.tournamentpts}}</h4></td>
 						<td class="td-player">{{player.knockouts}} </td>

@@ -60,7 +60,7 @@ a.comments:hover { background-color: #000!important }
 .percent:after { content: '%'; margin-left: 0.1em; font-size: .8em; }
 .angular { margin-top: 100px }
 .angular .chart { margin-top: 0 }
-.badgeplayers { margin-left: 15px; background: none; border: 1px solid #555; padding: 10px; font-size: 14px; }
+.badgeplayers { margin-left: 15px; background: none; border: 1px solid #555; padding: 5px; font-size: 14px; }
 .headerTournament { width: 250px; height: 200px; margin: 5px 5px 5px 5px; border: 0; color: #fff; background: #2A2A2A; position: relative; left: 0; top: 0; float: left; overflow: visible; }
 .headerTournament .time { font-size: 45px; font-weight: bold; text-align: center; padding: 5px; background: #1F1F1F; width: 100%; }
 .headerTournament .date { font-size: 23px; text-align: center; color: #999; padding: 25px; width: 100%; text-transform: lowercase; }
@@ -79,13 +79,25 @@ a.comments:hover { background-color: #000!important }
 .amber { color: #eea236 }
 .grey { color: #555 }
 .avatar { width: 55px; height: 70px; }
-.th-player { color: #fff; text-transform: uppercase; font-size: 12px; }
-.td-player { color: #fff; vertical-align: middle !important; }
+
+
 .rank {font-size: 24px; width: 60px;}
 .table-player { background: #1C1D21; cellspacing: 10px; border-collapse: none; }
 .table-player th { height: 25px; line-height: 10px; }
 .table-player tr { }
 .table-player td { border-top: 2px solid #000!important; border-bottom: 2px solid #000!important; margin-top: 5px; }
+.th-player { color: #fff; text-transform: uppercase; font-size: 12px; }
+.td-player { color: #fff; vertical-align: middle !important; }
+
+.table-level { cellspacing: 10px; border-collapse: none; }
+.table-level th { background: #1C1D21;  height: 25px; line-height: 10px; }
+.table-level tr { }
+.table-level tr.level-active { background: #4cae4c;}
+.table-level tr.level-pause { background: #666666; color: #fff;}
+.table-level td { border-top: 2px solid #000!important; border-bottom: 2px solid #000!important; margin-top: 5px; }
+.th-level { color: #fff; text-transform: uppercase; font-size: 12px; }
+.td-level { color: #fff; vertical-align: middle !important; }
+
 .Totalpts { color: #71cdf4 }
 .fullscore { position: relative; left: 10px; font-style: italic; color: #999; }
 .rounds { width: 100%; height: 100px; color: #999; }
@@ -102,8 +114,8 @@ a.comments:hover { background-color: #000!important }
 .action { width: 500px; margin: 0 auto; margin-top: 20px; }
 .btn-level{width:100%;margin-bottom: 80px; }
 .btn-playpause{width:100%;margin-bottom: 80px; }
-.btn-level .btn-live { height:60px;background: #1C1D21; border: 1px solid #333; color: #888; }
-.btn-level .btn-liveplay {height:60px;background: #1C1D21; border: 1px solid #333; color: #888; margin: 2.5%;}
+.btn-level .btn-live { width:100px;height:50px;background: #1C1D21; border: 1px solid #333; color: #888; }
+.btn-level .btn-liveplay {width:100px; height:50px;background: #1C1D21; border: 1px solid #333; color: #888; margin: 2.5%;}
 .btn-live {background: #1C1D21; border: 1px solid #333; color: #888; }
 .btn-play {margin : 5px 0;width: 49%!important; height: 50px!important; font-size: 20px!important; left: 25px; bottom:0; }
 .roundeffect { font-size: 20px; text-transform: capitalize; color: #000; }

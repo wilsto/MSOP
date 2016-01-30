@@ -1,130 +1,113 @@
-[
-        {
-        "level": 1,
-        "typelevel": "Round",
-        "smallblind": 25,
-        "bigblind": 50,
-        "ante": 0,
-        "time": 25
-    },
-    {
-        "level": 2,
-        "typelevel": "Round",
-        "smallblind": 50,
-        "bigblind": 100,
-        "ante": 0,
-        "time": 25
-    },
-    {
-        "level": 3,
-        "typelevel": "Round",
-        "smallblind": 100,
-        "bigblind": 200,
-        "ante": 0,
-        "time": 25
-    },
-    {
-        "level": "Pause",
-        "typelevel": "Pause",
-        "smallblind": 0,
-        "bigblind": 0,
-        "ante": 0,
-        "time": 10
-    },
-    {
-        "level": 5,
-        "typelevel": "Round",
-        "smallblind": 200,
-        "bigblind": 400,
-        "ante": 50,
-        "time": 25
-    },
-    {
-        "level": 6,
-        "typelevel": "Round",
-        "smallblind": 300,
-        "bigblind": 600,
-        "ante": 50,
-        "time": 25
-    },
-    {
-        "level": 7,
-        "typelevel": "Round",
-        "smallblind": 500,
-        "bigblind": 1000,
-        "ante": 100,
-        "time": 25
-    },
-    {
-        "level": 8,
-        "typelevel": "Pause",
-        "smallblind": 0,
-        "bigblind": 0,
-        "ante": 0,
-        "time": 10
-    },
-    {
-        "level": 9,
-        "typelevel": "Round",
-        "smallblind": 700,
-        "bigblind": 1400,
-        "ante": 150,
-        "time": 25
-    },
-    {
-        "level": 10,
-        "typelevel": "Round",
-        "smallblind": 1000,
-        "bigblind": 2000,
-        "ante": 200,
-        "time": 25
-    },
-    {
-        "level": 11,
-        "typelevel": "Round",
-        "smallblind": 1500,
-        "bigblind": 3000,
-        "ante": 300,
-        "time": 25
-    },
-    {
-        "level": 12,
-        "typelevel": "Pause",
-        "smallblind": 0,
-        "bigblind": 0,
-        "ante": 0,
-        "time": 10
-    },
-    {
-        "level": 13,
-        "typelevel": "Round",
-        "smallblind": 2000,
-        "bigblind": 4000,
-        "ante": 400,
-        "time": 25
-    },
-    {
-        "level": 14,
-        "typelevel": "Round",
-        "smallblind": 3000,
-        "bigblind": 6000,
-        "ante": 600,
-        "time": 25
-    },
-    {
-        "level": 15,
-        "typelevel": "Round",
-        "smallblind": 4000,
-        "bigblind": 8000,
-        "ante": 800,
-        "time": 25
-    },
-    {
-        "level": 16,
-        "typelevel": "Round",
-        "smallblind": 5000,
-        "bigblind": 10000,
-        "ante": 1000,
-        "time": 60
-    }
-]
+[{
+    "level": 1,
+    "typelevel": "Round",
+    "smallblind": 25,
+    "bigblind": 50,
+    "ante": 0,
+    "time": 25
+}, {
+    "level": 2,
+    "typelevel": "Round",
+    "smallblind": 50,
+    "bigblind": 100,
+    "ante": 0,
+    "time": 25
+}, {
+    "level": 3,
+    "typelevel": "Round",
+    "smallblind": 100,
+    "bigblind": 200,
+    "ante": 0,
+    "time": 25
+}, {
+    "level": 4,
+    "typelevel": "Pause",
+    "smallblind": 0,
+    "bigblind": 0,
+    "ante": 0,
+    "time": 10
+}, {
+    "level": 5,
+    "typelevel": "Round",
+    "smallblind": 200,
+    "bigblind": 400,
+    "ante": 50,
+    "time": 25
+}, {
+    "level": 6,
+    "typelevel": "Round",
+    "smallblind": 300,
+    "bigblind": 600,
+    "ante": 50,
+    "time": 25
+}, {
+    "level": 7,
+    "typelevel": "Round",
+    "smallblind": 500,
+    "bigblind": 1000,
+    "ante": 100,
+    "time": 25
+}, {
+    "level": 8,
+    "typelevel": "Pause",
+    "smallblind": 0,
+    "bigblind": 0,
+    "ante": 0,
+    "time": 10
+}, {
+    "level": 9,
+    "typelevel": "Round",
+    "smallblind": 700,
+    "bigblind": 1400,
+    "ante": 150,
+    "time": 25
+}, {
+    "level": 10,
+    "typelevel": "Round",
+    "smallblind": 1000,
+    "bigblind": 2000,
+    "ante": 200,
+    "time": 25
+}, {
+    "level": 11,
+    "typelevel": "Round",
+    "smallblind": 1500,
+    "bigblind": 3000,
+    "ante": 300,
+    "time": 25
+}, {
+    "level": 12,
+    "typelevel": "Pause",
+    "smallblind": 0,
+    "bigblind": 0,
+    "ante": 0,
+    "time": 10
+}, {
+    "level": 13,
+    "typelevel": "Round",
+    "smallblind": 2000,
+    "bigblind": 4000,
+    "ante": 400,
+    "time": 25
+}, {
+    "level": 14,
+    "typelevel": "Round",
+    "smallblind": 3000,
+    "bigblind": 6000,
+    "ante": 600,
+    "time": 25
+}, {
+    "level": 15,
+    "typelevel": "Round",
+    "smallblind": 4000,
+    "bigblind": 8000,
+    "ante": 800,
+    "time": 25
+}, {
+    "level": 16,
+    "typelevel": "Round",
+    "smallblind": 5000,
+    "bigblind": 10000,
+    "ante": 1000,
+    "time": 60
+}]
