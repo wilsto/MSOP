@@ -77,238 +77,334 @@
 	</div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+
 <div id="Live" class="panel2">
-	<div class="headerMSOP">
-		<h1> Tournoi Live  <small ng-show="liveOn">Saison {{tournament.season}} Episode {{tournament.episode}} </small>
-		<div style="float:right;padding-right:25px">
-			 <button type="button" class="btn btn-xs btn-success" data-toggle="modal" data-target="#ModalStart" ng-show="tournament.leveltime == tournament.end"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Démarrer </button>
-			<button type="button" class="btn btn-xs btn-Warning" data-toggle="modal" data-target="#ModalReset"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Reset</button>
-			<button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#ModalEnd" ng-show="tournament.leveltime > tournament.end"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Terminer </button>
-		</div>
-
+    <div class="headerMSOP">
+        <h1> Tournoi Live  <small ng-show="liveOn">Saison {{tournament.season}} Episode {{tournament.episode}} </small>
+			<div style="float:right;padding-right:25px">
+				 <button type="button" class="btn btn-xs btn-success" data-toggle="modal" data-target="#ModalStart" ng-show="tournament.leveltime == tournament.end"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Démarrer </button>
+				<button type="button" class="btn btn-xs btn-Warning" data-toggle="modal" data-target="#ModalReset"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Reset</button>
+				<button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#ModalEnd" ng-show="tournament.leveltime > tournament.end"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Terminer </button>
+			</div>
 		</h1>
+    </div>
 
-	</div>
-
-	<div class="liveOff" ng-show="liveOff">
-		Aucun tournoi en cours
-	</div>
-	<div class="alert alert-success"  id="alert-message" style="display:none;">Action enregistrée</div>
-	<div class="liveOn" ng-show="liveOn">
-
-
-
-	<div class="row">
-	   <!-- Partie Gauche -->
-	  <div class="col-lg-9 col-md-8 col-xs-12">
-		<!-- Columns are always 50% wide, on mobile and desktop -->
-	  	<div class="round">{{currentlevel.typelevel}} {{currentlevel.level}}</div>		
-	  	<!-- Columns are always 50% wide, on mobile and desktop -->
-		<div class="row">
-		  <div class="col-md-7 col-xs-12">
-<!-- 		  <div class="timer">
+    <div class="liveOff" ng-show="liveOff">
+        Aucun tournoi en cours
+    </div>
+    <div class="alert alert-success" id="alert-message" style="display:none;">Action enregistrée</div>
+    <div class="liveOn" ng-show="liveOn">
+        <div class="row">
+            <!-- Partie Gauche -->
+            <div class="col-lg-8 col-md-8 col-xs-12">
+                <!-- Columns are always 50% wide, on mobile and desktop -->
+                <div class="round">{{currentlevel.typelevel}} {{currentlevel.level}}</div>
+                <!-- Columns are always 50% wide, on mobile and desktop -->
+                <div class="row">
+                    <div class="col-md-7 col-xs-12">
+                        <!-- 		  <div class="timer">
 <timer interval="1000" countdown="69" max-time-unit="'minute'"> {{mminutes}}:{{sseconds}} </timer>
 </div> -->
+                        <div class="clock">
+                            <!-- Minutes -->
+                            <div class="clock_minutes">
+                                <div class="bgLayer">
+                                    <div class="topLayer"></div>
+                                    <canvas id="canvas_minutes" width="188" height="188"></canvas>
+                                    <div class="text">
+                                        <p class="val">0</p>
+                                        <p class="type_minutes">Minutes</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Minutes -->
+                            <!-- Seconds -->
+                            <div class="clock_seconds">
+                                <div class="bgLayer">
+                                    <div class="topLayer"></div>
+                                    <canvas id="canvas_seconds" width="188" height="188"></canvas>
+                                    <div class="text">
+                                        <p class="val">0</p>
+                                        <p class="type_seconds">Seconds</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Seconds -->
 
+                        </div>
 
-			<div class="clock">
-				<!-- Minutes -->
-				<div class="clock_minutes">
-					<div class="bgLayer">
-						<div class="topLayer"></div>
-						<canvas id="canvas_minutes" width="188" height="188">
-						</canvas>
-						<div class="text">
-							<p class="val">0</p>
-							<p class="type_minutes">Minutes</p>
-						</div>
-					</div>
-				</div>
-				<!-- Minutes -->
-				<!-- Seconds -->
-				<div class="clock_seconds">
-					<div class="bgLayer">
-						<div class="topLayer"></div>
-						<canvas id="canvas_seconds" width="188" height="188">
-						</canvas>
-						<div class="text">
-							<p class="val">0</p>
-							<p class="type_seconds">Seconds</p>
-						</div>
-					</div>
-				</div>
-				<!-- Seconds -->
+                    </div>
+                    <div class="col-md-5 col-xs-12">
+                        <div class="rounds">
+                            <div>
+                                <h1 class="blind">{{currentlevel.smallblind}}<small> - </small>{{currentlevel.bigblind}}</h1></div>
+                            <div>
+                                <br/>Stack Moyen : 15 000
+                                <br/>PrizePool : 120 €
+                                <br/>
+                                <div class="btn-level">
+                                    <button type="button" class=" btn-live btn-round" ng-click="followlevel='previous'" data-toggle="modal" data-target="#ModalRound"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Round -</button>
 
-			</div>
+                                    <button type="button" class="btn btn-liveplay" ng-click="PlayGame()" ng-show="tournament.lastpause !=='0000-00-00 00:00:00'"><span class="glyphicon glyphicon-play"></span></button>
+                                    <button type="button" class="btn btn-liveplay" ng-click="PauseGame()" ng-show="tournament.leveltime !=='0000-00-00 00:00:00' && tournament.lastpause == '0000-00-00 00:00:00'"><span class="glyphicon glyphicon-pause"></span></button>
 
-		  </div>
-		  <div class="col-md-5 col-xs-12">
-		  	<div class="rounds">
-				<div ><h1 class="blind">{{currentlevel.smallblind}}<small> - </small>{{currentlevel.bigblind}}</h1></div>
-				<div> 
-					<br/>Stack Moyen : 15 000
-					<br/>PrizePool : 120 €
-					<br/>
-<div class="btn-level">
-					<button type="button" class=" btn-live btn-round" ng-click="followlevel='previous'"  data-toggle="modal" data-target="#ModalRound"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Round -</button>
+                                    <button type="button" class="btn-live btn-round" ng-click="followlevel='next'" data-toggle="modal" data-target="#ModalRound"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Round +</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
+                <div class="row">
+                    <div class="col-xs-6 col-md-2">
 
-					<button type="button" class="btn btn-liveplay" ng-click="PlayGame()" ng-show="tournament.lastpause !=='0000-00-00 00:00:00'"><span class="glyphicon glyphicon-play"></span></button>
-					<button type="button" class="btn btn-liveplay" ng-click="PauseGame()" ng-show="tournament.leveltime !=='0000-00-00 00:00:00' && tournament.lastpause == '0000-00-00 00:00:00'"><span class="glyphicon glyphicon-pause"></span></button>
+                    </div>
+                    <div class="col-xs-6 col-md-8">
 
-					<button type="button" class="btn-live btn-round" ng-click="followlevel='next'"  data-toggle="modal" data-target="#ModalRound"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Round +</button>
-				</div>
-				</div>
-			</div>
-		  </div>
-		</div>
-	<!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
-	<div class="row">
-	  <div class="col-xs-6 col-md-2">
+                    </div>
+                    <div class="col-xs-6 col-md-2">
+                    	
+                    </div>
+                </div>
 
-	  		
-	  </div>
-	  <div class="col-xs-6 col-md-8">
-				
-	  </div>
-	  <div class="col-xs-6 col-md-2">.col-xs-6 .col-md-4</div>
-	</div>
+                <table class="table table-condensed table-level">
+                    <thead>
+                        <tr>
+                            <th class="th-level">#</th>
+                            <th class="th-level">Round</th>
+                            <th class="th-level">Small Blind</th>
+                            <th class="th-level">Big Bling</th>
+                            <th class="th-level">Durée</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="level in levels | orderBy:['level']" ng-class="{'level-pause':level.typelevel=== 'Pause','level-active':level.level=== currentlevel.level}">
+                            <td class="td-level">{{level.level}}</td>
+                            <td class="td-level"> {{level.typelevel}}</td>
+                            <td class="td-level"> {{level.smallblind}}</td>
+                            <td class="td-level"> {{level.bigblind}}</td>
+                            <td class="td-level"> {{level.time}}:00</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-<table class="table table-condensed table-level" >
-				<thead>
-					<tr>
-						<th class="th-level">#</th>
-						<th class="th-level">Round</th>
-						<th class="th-level">Small Blind</th>
-						<th class="th-level">Big Bling</th>
-						<th class="th-level">Durée</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="level in levels | orderBy:['level']" ng-class="{'level-active':level.level=== currentlevel.level,'level-pause':level.typelevel=== 'Pause'}">
-						<td class="td-level">{{level.level}}</td>
-						<td class="td-level"> {{level.typelevel}}</td>
-						<td class="td-level"> {{level.smallblind}}</td>
-						<td class="td-level"> {{level.bigblind}}</td>
-						<td class="td-level"> {{level.time}}:00</td>
-					</tr>
-				</tbody>
-			</table>
+            <!-- Partie Droite : Liste des joueurs-->
+            <div class="col-lg-4 col-md-4 col-xs-12">
+                <tabs>
+                    <pane title="Joueurs du tournoi">
+                        <div>
 
+                            <table class="table table-condensed table-player">
+                                <thead>
+                                    <tr>
+                                        <th class="th-player">#</th>
+                                        <th class="th-player"></th>
+                                        <th class="th-player">Joueur</th>
+                                        <th class="th-player">Points</th>
+                                        <th class="th-player">kill</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="player in players | filter:{ notes: 'OK' } | orderBy:['-notes','rank','username']">
+                                        <td class="td-player bartd rank">
+                                            <span ng-show="player.rank >0"> {{player.rank}}</span>
+                                            <button class="btn-xs btn-action" ng-class="{'btn-success':(player.notes === 'OK' && player.buyin >0 && player.rank < 1),'btn-warning':(player.notes === 'OK' && player.buyin <1)}" ns-popover ns-popover-template="popover" ns-popover-trigger="click" ns-popover-placement="left" ns-popover-theme="ns-popover-list-theme">
+    							<span class="glyphicon glyphicon-cog" style="color:black"></span>
+							</button>
+                                        </td>
+                                        <td class="td-player rank"> <img class="avatar" ng-src="{{player.avatar}}"></td>
+                                        <td class="td-player">
+                                            <h3>{{player.username}} </h3>
+                                            <span class="green" ng-show="player.payout > 0 "> {{player.payout}} €</span>
+                                        </td>
+                                        <td class="td-player">
+                                            <h4 class="Totalpts">{{player.tournamentpts}}</h4></td>
+                                        <td class="td-player">{{player.knockouts}} </td>
+                                    </tr>
+                                </tbody>
+                            </table>
 
-  </div>
+                            <script type="text/ng-template" id="popover">
+                                <ul>
+                                    <!-- POur buyin le joueur -->
+                                    <li ng-show="(player.buyin < 1)" class="action">
+                                        <a ng-click="buyIn(player)">Buyin</a>
+                                    </li>
+                                    <!-- Pour kicker le joueur -->
+                                    <li ng-show="(player.buyin > 0) && (player.rank < 1)" class="pop-action">
+                                        <a ng-click="kicker(player)">Le joueur a été sorti par</a>
+                                    </li>
+                                    <!-- Pour retirer le joueur -->
+                                    <li ng-show="(player.rank < 1)" class="pop-action">
+                                        <a ng-click="ReponsePlayer(player.id_user, player.notes, player)">Ne joue pas</a>
+                                    </li>
+                                    <!-- Pour annuler le kick -->
+                                    <li ng-show="(player.buyin > 0) && (player.rank > 0)" class="pop-action">
+                                        <a ng-click="kicker(player)">Annuler la sortie</a>
+                                    </li>
+                                </ul>
+                            </script>
 
-   <!-- Partie Droite : Liste des joueurs-->
-  <div class="col-lg-3 col-md-4 col-xs-12">
-			<table class="table table-condensed table-player" >
-				<thead>
-					<tr>
-						<th class="th-player">#</th>
-						<th class="th-player"></th>
-						<th class="th-player">Joueur</th>
-						<th class="th-player">Points</th>
-						<th class="th-player">kill</th>
-						<th class="th-player">Gains</th>
-						<th class="th-player">RoundOut</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr ng-repeat="player in players | filter:{ notes: 'OK' } | orderBy:['-notes','rank','username']">
-						<td class="td-player bartd rank">
+                        </div>
+                    </pane>
+                    <pane title="Ajouter">
+                        <div>
+                            <table class="table table-condensed table-player">
+                                <thead>
+                                    <tr>
+                                        <th class="th-player"></th>
+                                        <th class="th-player">Joueur</th>
+                                        <th class="th-player"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="player in players | filter:{ notes: '!OK' } | orderBy:['username']">
+                                        <td class="td-player rank"> <img class="avatar" ng-src="{{player.avatar}}"></td>
+                                        <td class="td-player">
+                                            <h3>{{player.username}} </h3> {{player.payout}} <span ng-show="player.payout > 0 ">€</span>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-success buyIn" ng-click="ReponsePlayer(player.id_user, player.notes, player)">Ajouter</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </pane>
+                    <pane title="Log">
 
-							<img ng-src="images/bullet_ball_{{player.notes}}_16x16_plain.png" ng-click="ReponsePlayer(player.id_user, player.notes, player)"/> 
-							<span  ng-show="player.rank >0"> {{player.rank}}</span>
-							<br/>
-
-													<button class="btn-xs" ns-popover
-  ns-popover-template="popover"
-  ns-popover-trigger="click"
-  ns-popover-placement="left"
-  ns-popover-theme="ns-popover-list-theme">
-    <span class="glyphicon glyphicon-cog" style="color:black"></span>
-</button>
-						</td>
-						<td class="td-player rank"> <img class="avatar"  ng-src="{{player.avatar}}"></td>
-						<td class="td-player">
-							<h3>{{player.username}} 
-
-								
-
-							</h3>
-		<script type="text/ng-template" id="popover">			
-  <ul>
-  	<!-- POur buyin le joueur -->
-    <li ng-show="(player.buyin < 1)">
-		<span  ng-click="buyIn(player)" class="buyIn"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;&nbsp;Buyin</span>					
-    </li>
-    <!-- Pour kicker le joueur -->
-    <li ng-show="(player.buyin > 0) && (player.rank < 1)">
-		<span  ng-click="kicker(player)" class="kicker"><span class="glyphicon glyphicon-log-out"></span>&nbsp;&nbsp;&nbsp;KnockOut</span>
-    </li>
-  </ul>
-</script>
-
-						</td>
-						<td class="td-player"><h4 class="Totalpts">{{player.tournamentpts}}</h4></td>
-						<td class="td-player">{{player.knockouts}} </td>
-						<td class="td-player">{{player.payout}} <span ng-show="player.payout > 0 ">€</span></td>
-						<td class="td-player">{{player.roundout}}</td>
-					</tr>
-				</tbody>
-			</table>
-  </div>
+                        <div class="testimonial testimonial-dark" ng-repeat="comment in comments">
+                            <blockquote>
+                                <em class="icon-quote-left"></em> <img class="circular" alt="32x32" style="width: 32px; height: 32px;margin-right:10px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA+klEQVRYR+2WMQuEMAyF34EKDuIqOIm4iM6C/38WN8FVcHRwVexdChH1rIc33C0piDS8kJevhfQxDIPCH9dDDAgBISAEhIAQMBF4xVHXNZZlQZZlcBxn3UdRhDiOdyPsrp6TjcOoqirYto1pmnZ/y7IwjqOO0Uf7eZ7fdJzH+qIoTmfu5TTsug5932ObzMbCMNRElFIoyxKu6+JKn+f5fQOU0TSN7phMUIG2bdeCZIY63Rq80p85+HgEjDBJEt1xmqYIggDHMydSfCRk+Kg3vXmMBs4KUIyW53m6mO/7+nJScS7Il5ZiW/1Xd+AXLzV5kgkBISAEhIAQeAI0gyFQQ7RZIgAAAABJRU5ErkJggg==">{{comment.details}}
+                            </blockquote>
+                            <p class="testimonial-footer">
+                                <b>{{comment.username}}</b> : {{comment.time}}
+                            </p>
+                        </div>
+                    </pane>
+                </tabs>
+            </div>
+        </div>
+    </div>
 </div>
-
-
-
-		<div id="Resume" ng-class="{hidden: menuLive!=='Resume'}">
-						<div class="btn-play-all">
-					
-					
-					
-
-				</div>
-			
-
-
-
-
-
-				
-		</div>
-
-		<div id="Details" ng-class="{hidden: menuLive!=='Details'}">
-				<div class="testimonial testimonial-dark" ng-repeat="comment in comments">
-					<blockquote>
-						<em class="icon-quote-left"></em> <img class="circular" alt="32x32" style="width: 32px; height: 32px;margin-right:10px" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA+klEQVRYR+2WMQuEMAyF34EKDuIqOIm4iM6C/38WN8FVcHRwVexdChH1rIc33C0piDS8kJevhfQxDIPCH9dDDAgBISAEhIAQMBF4xVHXNZZlQZZlcBxn3UdRhDiOdyPsrp6TjcOoqirYto1pmnZ/y7IwjqOO0Uf7eZ7fdJzH+qIoTmfu5TTsug5932ObzMbCMNRElFIoyxKu6+JKn+f5fQOU0TSN7phMUIG2bdeCZIY63Rq80p85+HgEjDBJEt1xmqYIggDHMydSfCRk+Kg3vXmMBs4KUIyW53m6mO/7+nJScS7Il5ZiW/1Xd+AXLzV5kgkBISAEhIAQeAI0gyFQQ7RZIgAAAABJRU5ErkJggg==">{{comment.details}}                
-					</blockquote>
-					<p class="testimonial-footer">
-						<b>{{comment.username}}</b> : {{comment.time}}                
-					</p>
-				</div>
-
-
-
-		</div>
-	</div>
-
-</div>
-
-<nav class="navbottom" >
-	<a href="#/Live" ng-show="liveOn" ng-click="menuLive='Classement'" ng-class="{active: menuLive=='Classement'}"><span class="glyphicon glyphicon-sort-by-order"></span> Classement</a>
-	<a href="#/Live" ng-show="liveOn" ng-click="menuLive='Resume'" ng-class="{active: menuLive=='Resume'}"><span class="glyphicon glyphicon-star"> </span> Résumé</a>
-	<a href="#/Live" ng-show="liveOn" ng-click="menuLive='Details'" ng-class="{active: menuLive=='Details'}"><span class="glyphicon glyphicon-list-alt"> </span> Détails</a>
-</nav>
-
-
 
 <div class="hide">
-	<audio id="kicker" controls preload="auto" autobuffer>
-		<source src="sounds/success.wav"/>
+    <audio id="kicker">
+		<source src="sounds/est sorti par.wav"/>
 	</audio>
-	<audio id="buyIn" controls preload="auto" autobuffer>
-		<source src="sounds/success.wav"/>
+
+    <audio id="buyIn">
+		<source src="sounds/buyIn.wav"/>
 	</audio>
+
+    <audio id="gunShot">
+		<source src="sounds/gunShot.wav"/>
+	</audio>
+
+    <audio id="level25">
+		<source src="sounds/level25.wav"/>
+	</audio>
+
+    <audio id="Pause10">
+		<source src="sounds/Pause10.wav"/>
+	</audio>
+
+    <audio id="PlayerUnknown">
+		<source src="sounds/PlayerUnknown.wav"/>
+	</audio>
+
+    <audio id="roundNext">
+		<source src="sounds/roundNext.wav"/>
+	</audio>
+
+    <audio id="TournoiPause">
+		<source src="sounds/TournoiPause.wav"/>
+	</audio>
+
+    <audio id="TournoiPlay">
+		<source src="sounds/TournoiPlay.wav"/>
+	</audio>
+
+    <audio id="TournoiReset">
+		<source src="sounds/TournoiReset.wav"/>
+	</audio>
+
+    <audio id="TournoiStart">
+		<source src="sounds/TournoiStart.wav"/>
+	</audio>
+
+    <audio id="TournoiEnd">
+		<source src="sounds/TournoiEnd.wav"/>
+	</audio>
+
+    <audio id="PlayerIn">
+		<source src="sounds/PlayerIn.wav"/>
+	</audio>
+
+    <audio id="PlayerOut">
+		<source src="sounds/PlayerOut.wav"/>
+	</audio>
+
+
+    <audio id="Blinds-25-50">
+		<source src="sounds/Blinds-25-50.wav"/>
+	</audio>
+
+    <audio id="Blinds-50-100">
+		<source src="sounds/Blinds-50-100.wav"/>
+	</audio>
+
+    <audio id="Blinds-100-200">
+		<source src="sounds/Blinds-100-200.wav"/>
+	</audio>
+
+    <audio id="Blinds-200-400">
+		<source src="sounds/Blinds-200-400.wav"/>
+	</audio>
+
+    <audio id="Blinds-300-600">
+		<source src="sounds/Blinds-300-600.wav"/>
+	</audio>
+
+    <audio id="Blinds-500-1000">
+		<source src="sounds/Blinds-500-1000.wav"/>
+	</audio>
+
+    <audio id="Blinds-700-1400">
+		<source src="sounds/Blinds-700-1400.wav"/>
+	</audio>
+
+    <audio id="Blinds-1000-2000">
+		<source src="sounds/Blinds-1000-2000.wav"/>
+	</audio>
+
+    <audio id="Blinds-1500-3000">
+		<source src="sounds/Blinds-1500-3000.wav"/>
+	</audio>
+
+    <audio id="Blinds-2000-4000">
+		<source src="sounds/Blinds-2000-4000.wav"/>
+	</audio>
+
+
+    <audio id="Blinds-3000-6000">
+		<source src="sounds/Blinds-3000-6000.wav"/>
+	</audio>
+
+
+    <audio id="Blinds-4000-8000">
+		<source src="sounds/Blinds-4000-8000.wav"/>
+	</audio>
+
+
+    <audio id="Blinds-5000-10000">
+		<source src="sounds/Blinds-5000-10000.wav"/>
+	</audio>
+
+
+    <div ng-repeat="player in listplayers">
+        <div audios code="player.username"></div>
+    </div>
 
 </div>
-
-

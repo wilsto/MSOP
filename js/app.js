@@ -44,6 +44,75 @@ app.factory('UserService', function() {
     };
 });
 
+app.directive('audios', function($sce) {
+    return {
+        restrict: 'A',
+        scope: {
+            code: '='
+        },
+        replace: true,
+        template: '<audio id="{{code}}" ><source src="{{url}}" ></source></audio>',
+        link: function(scope) {
+            scope.$watch('code', function(newVal, oldVal) {
+                if (newVal !== undefined) {
+                    scope.url = $sce.trustAsResourceUrl("sounds/" + newVal + ".wav");
+                }
+            });
+        }
+    };
+})
+
+.directive('tabs', function() {
+    return {
+        restrict: 'E',
+        transclude: true,
+        scope: {},
+        controller: ["$scope",
+            function($scope) {
+                var panes = $scope.panes = [];
+
+                $scope.select = function(pane) {
+                    angular.forEach(panes, function(pane) {
+                        pane.selected = false;
+                    });
+                    pane.selected = true;
+                };
+
+                this.addPane = function(pane) {
+                    if (panes.length === 0) $scope.select(pane);
+                    panes.push(pane);
+                };
+            }
+        ],
+        template: '<div class="tabbable">' +
+            '<ul class="nav nav-tabs">' +
+            '<li ng-repeat="pane in panes" ng-class="{ tabactive:pane.selected}">' +
+            '<a href="" ng-click="select(pane)">{{pane.title}}</a>' +
+            '</li>' +
+            '</ul>' +
+            '<div class="tab-content" ng-transclude></div>' +
+            '</div>',
+        replace: true
+    };
+})
+
+.directive('pane', function() {
+    return {
+        require: '^tabs',
+        restrict: 'E',
+        transclude: true,
+        scope: {
+            title: '@'
+        },
+        link: function(scope, element, attrs, tabsCtrl) {
+            tabsCtrl.addPane(scope);
+        },
+        template: '<div class="tab-pane" ng-class="{active: selected}" ng-transclude>' +
+            '</div>',
+        replace: true
+    };
+});
+
 function HeaderController($scope, $location) {
     $scope.isActive = function(viewLocation) {
         return viewLocation === $location.path();

@@ -93,9 +93,7 @@ app.controller('TournamentDetailsCtrl', function($scope, $http, $routeParams, $l
                     player.notes = '';
                     break;
             }
-            console.log('reponse', reponse);
-            console.log('player.notes', player.notes);
-            console.log('player', player);
+
             $scope.reponse = player.notes;
             $scope.playerName = player.username;
         } else {

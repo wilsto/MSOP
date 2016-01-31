@@ -74,7 +74,7 @@ module.exports = function(grunt) {
         uglify: {
             build: {
                 options: {
-                    mangle: false
+                    mangle: false,
                 },
                 files: {
                     'dist/min.js': [
@@ -89,6 +89,7 @@ module.exports = function(grunt) {
                         'bower_components/momentjs/min/locales.min.js',
                         'bower_components/humanize-duration/humanize-duration.js',
                         'bower_components/angular-timer/dist/angular-timer.js',
+                        'bower_components/underscore/underscore-min.js',
                         'bower_components/nsPopover/src/nsPopover.js'
                     ]
                 }

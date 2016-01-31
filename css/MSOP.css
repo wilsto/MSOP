@@ -21,7 +21,7 @@ time, mark, audio, video {
 .navseason{float: left; display: inline-block !important;font-size: 22px;}
 .navseason li a.dropdown-toggle{color: #71cdf4 !important;}
 .view { position: absolute; top: 25px; right: 0; bottom: 0; left: 0; }
-.panel2 { position: absolute; top: 35px; left: 5px; right: 5px; bottom: 45px; overflow-x: hidden; overflow-y: scroll; }
+.panel2 { position: absolute; top: 35px; left: 5px; right: 5px; bottom: 0px; overflow-x: hidden; overflow-y: scroll; }
 .navbottom { position: absolute; bottom: 0; left: 0; right: 0; height: 60px; line-height: 60px; text-align: center; background-color: #1C1D21; overflow: hidden; *zoom: 1; }
 .navbottom a { display: block; width: 33%; height: 60px; line-height: 60px; float: left; -webkit-transition-duration: 0.3s; -moz-transition-duration: 0.3s; -o-transition-duration: 0.3s; transition-duration: 0.3s; }
 .navbottom a { border-right: 1px solid #1f253d }
@@ -74,14 +74,16 @@ a.comments:hover { background-color: #000!important }
 .headerTournament .number { width: 25%; margin-left: 5px; margin-right: 25px; font-weight: bold; font-size: 20px; }
 .headerTournament .description { text-align: right; width: 75%; color: #999; }
 .headerTournament  .circular { position: relative; margin: 0 auto; top: 10px; margin-bottom: 10px; width: 100px; height: 100px; border-radius: 50px; -webkit-border-radius: 50px; -moz-border-radius: 50px; background: url(../images/smallwinner.jpg) no-repeat; }
+.bg-green { background: #4cae4c }
 .green { color: #4cae4c }
 .blue { color: #71cdf4 }
 .amber { color: #eea236 }
 .grey { color: #555 }
 .avatar { width: 55px; height: 70px; }
 
+.tabactive {  background: #3E3E3F;}
 
-.rank {font-size: 24px; width: 60px;}
+.rank {font-size: 24px; text-align: center; width:10px;}
 .table-player { background: #1C1D21; cellspacing: 10px; border-collapse: none; }
 .table-player th { height: 25px; line-height: 10px; }
 .table-player tr { }
@@ -112,12 +114,14 @@ a.comments:hover { background-color: #000!important }
 .Kicker { font-size: 12px; color: red; position: relative; float: right; }
 .buyIn { font-size: 12px; color: green; position: relative; float: right; }
 .action { width: 500px; margin: 0 auto; margin-top: 20px; }
+.pop-action { width: 200px; margin: 10px; }
 .btn-level{width:100%;margin-bottom: 80px; }
 .btn-playpause{width:100%;margin-bottom: 80px; }
 .btn-level .btn-live { width:100px;height:50px;background: #1C1D21; border: 1px solid #333; color: #888; }
 .btn-level .btn-liveplay {width:100px; height:50px;background: #1C1D21; border: 1px solid #333; color: #888; margin: 2.5%;}
 .btn-live {background: #1C1D21; border: 1px solid #333; color: #888; }
 .btn-play {margin : 5px 0;width: 49%!important; height: 50px!important; font-size: 20px!important; left: 25px; bottom:0; }
+.btn-action{padding-top: 20px;}
 .roundeffect { font-size: 20px; text-transform: capitalize; color: #000; }
 .performancediv{position:relative;}
 .performance{position:absolute;top:50%;left:40%;font-size: 45px;text-align: center;width: 50px;}
