@@ -101,6 +101,20 @@ app.controller('LiveCtrl', function($scope, $http, $modal, $timeout) {
                     if (typeof $scope.listplayers === 'undefined') {
                         $scope.listplayers = $scope.players;
                     }
+                    $scope.nbplayersbuyin = _.filter($scope.players, function(player) {
+                        return player.buyin > 0;
+                    }).length;
+
+                    $scope.nbplayersout = _.filter($scope.players, function(player) {
+                        return player.rank > 0;
+                    }).length;
+
+                    $scope.meanStack = ($scope.nbplayersbuyin) ? parseInt($scope.nbplayersbuyin * 10000 / ($scope.nbplayersbuyin - $scope.nbplayersout)) : 0;
+                    $scope.pot = (Math.max($scope.nbplayersbuyin - 1, 0)) * 17;
+                    $scope.rank1 = 5 * Math.round($scope.pot * 0.58 / 5);
+                    $scope.rank2 = 5 * Math.round($scope.pot * 0.29 / 5);
+                    $scope.rank3 = 5 * Math.round($scope.pot * 0.13 / 5);
+
                 });
 
                 /* On va ensuite chercher les commentaires */
@@ -118,14 +132,17 @@ app.controller('LiveCtrl', function($scope, $http, $modal, $timeout) {
     $scope.kicker = function(player) {
 
         $scope.listplayers = $scope.players;
-        // a amléiorer en sélectionnant uniquement les joueurs inscrits et non encore sorti.
         $scope.items = _.compact($scope.players.map(function(obj) {
-            if ((obj.buyin > 0) && (obj.rank < 1)) {
-                return obj.username;
+            if ((obj.buyin > 0) && (obj.rank < 1) && obj.username !== player.username) {
+                return {
+                    name: obj.username,
+                    avatar: obj.avatar,
+                    id_user: obj.id_user
+                };
             }
         }));
         $scope.itemsId = _.compact($scope.players.map(function(obj) {
-            if ((obj.buyin > 0) && (obj.rank < 1)) {
+            if ((obj.buyin > 0) && (obj.rank < 1) && obj.username !== player.username) {
                 return obj.id_user;
             }
         }));
@@ -142,7 +159,7 @@ app.controller('LiveCtrl', function($scope, $http, $modal, $timeout) {
 
         modalInstance.result.then(function(selectedItem) {
             $scope.kickermanId = $scope.itemsId[selectedItem];
-            $scope.kickerman = $scope.items[selectedItem];
+            $scope.kickerman = $scope.items[selectedItem].name;
 
             $http.get('php/Live.php?action=kicker&playerId=' + player.id_user + '&eventId=' + $scope.eventId + '&kickermanId=' + $scope.kickermanId).success(function(data) {
                 if (data[0]) {
@@ -151,12 +168,41 @@ app.controller('LiveCtrl', function($scope, $http, $modal, $timeout) {
                         $scope.LoadTournoi();
                         EvalSound('gunShot', player.username, 'kicker', $scope.kickerman);
                     });
+
+                    if ($scope.items.length === 1) {
+                        $http.get('php/Live.php?action=kicker&playerId=' + $scope.items[0].id_user + '&eventId=' + $scope.eventId + '&kickermanId=' + $scope.kickermanId).success(function(data) {
+                            if (data[0]) {
+                                /* On le note dans les commentaires */
+                                $http.get('php/Comment.php?action=Add&Info=OnePost&userId=' + $scope.userId + '&eventId=' + $scope.eventId + '&details=' + $scope.items[0].name + ' a gagné').success(function(data) {
+                                    $scope.LoadTournoi();
+                                });
+                            }
+                        });
+                    }
                 }
             });
+
 
         });
 
     };
+
+
+    $scope.unkicker = function(player) {
+
+        $scope.listplayers = $scope.players;
+
+        $http.get('php/Live.php?action=unkicker&playerId=' + player.id_user + '&eventId=' + $scope.eventId).success(function(data) {
+            if (data[0]) {
+                /* On le note dans les commentaires */
+                $http.get('php/Comment.php?action=Add&Info=OnePost&userId=' + $scope.userId + '&eventId=' + $scope.eventId + '&details=' + player.username + ' est sorti par ' + $scope.kickerman).success(function(data) {
+                    $scope.LoadTournoi();
+                });
+            }
+        });
+
+    };
+
 
     var ModalInstanceCtrl = function($scope, $modalInstance, items) {
 
@@ -314,9 +360,6 @@ app.controller('LiveCtrl', function($scope, $http, $modal, $timeout) {
 
     // Kick off the interval
     $scope.intervalFunction();
-
-
-
     $scope.LoadTournoi();
 
 });

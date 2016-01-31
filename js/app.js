@@ -113,6 +113,19 @@ app.directive('audios', function($sce) {
     };
 });
 
+app.filter('integer', function() {
+    return function(input) {
+        var rx = /(\d+)(\d{3})/;
+        var n = parseInt(input, 10);
+        return String(n).replace(/^\d+/, function(w) {
+            while (rx.test(w)) {
+                w = w.replace(rx, '$1 $2');
+            }
+            return w;
+        });
+    };
+});
+
 function HeaderController($scope, $location) {
     $scope.isActive = function(viewLocation) {
         return viewLocation === $location.path();

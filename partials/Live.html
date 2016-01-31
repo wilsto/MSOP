@@ -139,16 +139,18 @@
                             <div>
                                 <h1 class="blind">{{currentlevel.smallblind}}<small> - </small>{{currentlevel.bigblind}}</h1></div>
                             <div>
-                                <br/>Stack Moyen : 15 000
-                                <br/>PrizePool : 120 €
+                            <div style ="font-size:20px">
+                            	Stack Moyen : <span style="color:white">{{meanStack | integer}}</span>
+                                <br/>PrizePool : <span class="blue">{{pot}} € </span> : <span style="color:white">{{rank1| integer}} </span>/ <span style="color:white">{{rank2| integer}}</span> / <span style="color:white">{{rank3| integer}} </span>
                                 <br/>
+                            </div>
                                 <div class="btn-level">
-                                    <button type="button" class=" btn-live btn-round" ng-click="followlevel='previous'" data-toggle="modal" data-target="#ModalRound"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Round -</button>
+                                    <button type="button" class=" btn-live btn-round" ng-click="followlevel='previous'" data-toggle="modal" data-target="#ModalRound">Round&nbsp;&nbsp; <span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></button>
 
                                     <button type="button" class="btn btn-liveplay" ng-click="PlayGame()" ng-show="tournament.lastpause !=='0000-00-00 00:00:00'"><span class="glyphicon glyphicon-play"></span></button>
                                     <button type="button" class="btn btn-liveplay" ng-click="PauseGame()" ng-show="tournament.leveltime !=='0000-00-00 00:00:00' && tournament.lastpause == '0000-00-00 00:00:00'"><span class="glyphicon glyphicon-pause"></span></button>
 
-                                    <button type="button" class="btn-live btn-round" ng-click="followlevel='next'" data-toggle="modal" data-target="#ModalRound"><span class="glyphicon glyphicon-log-in"></span>&nbsp;&nbsp;Round +</button>
+                                    <button type="button" class="btn-live btn-round" ng-click="followlevel='next'" data-toggle="modal" data-target="#ModalRound">Round &nbsp;&nbsp;<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></button>
                                 </div>
                             </div>
                         </div>
@@ -228,20 +230,20 @@
                             <script type="text/ng-template" id="popover">
                                 <ul>
                                     <!-- POur buyin le joueur -->
-                                    <li ng-show="(player.buyin < 1)" class="action">
-                                        <a ng-click="buyIn(player)">Buyin</a>
+                                    <li ng-show="(player.buyin < 1)" class="pop-action">
+                                         <a ng-click="buyIn(player)" style="font-size:17px" class="green"><span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span> Buyin</a>
                                     </li>
                                     <!-- Pour kicker le joueur -->
                                     <li ng-show="(player.buyin > 0) && (player.rank < 1)" class="pop-action">
-                                        <a ng-click="kicker(player)">Le joueur a été sorti par</a>
+                                        <a ng-click="kicker(player)" style="font-size:17px" class="red"><span class="glyphicon glyphicon-record" aria-hidden="true"></span> Le joueur a été sorti par</a>
                                     </li>
                                     <!-- Pour retirer le joueur -->
                                     <li ng-show="(player.rank < 1)" class="pop-action">
-                                        <a ng-click="ReponsePlayer(player.id_user, player.notes, player)">Ne joue pas</a>
+                                        <a ng-click="ReponsePlayer(player.id_user, player.notes, player)" class="grey"><span class="glyphicon glyphicon-minus-sign" aria-hidden="true"></span> Ne joue pas</a>
                                     </li>
                                     <!-- Pour annuler le kick -->
                                     <li ng-show="(player.buyin > 0) && (player.rank > 0)" class="pop-action">
-                                        <a ng-click="kicker(player)">Annuler la sortie</a>
+                                        <a ng-click="unkicker(player)" class="grey"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Annuler la sortie</a>
                                     </li>
                                 </ul>
                             </script>

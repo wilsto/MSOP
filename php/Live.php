@@ -153,6 +153,30 @@ if(isset($_GET["action"])) {
 		$arr = $row;
 	}
 
+	if ($_GET["action"]=="unkicker") {
+		$eventid=$_GET["eventId"];
+		$playerId=$_GET["playerId"];
+
+		$rs = mysql_query("SELECT kickermanId FROM pokerpoints WHERE id_event = " . $eventid . " AND id_player =" . $playerId );
+		$row3 = mysql_fetch_row($rs);
+		$kickermanId = $row3[0];
+
+
+		/*on effectue la mise à jour */
+		/***********************/
+		$rs = mysql_query("UPDATE pokerpoints SET rank = NULL, tournamentpts =  NULL, payout= NULL, kickermanId = NULL WHERE id_event = " . $eventid . " AND id_player =" . $playerId );
+
+
+		/*on calcule le nombre de kill pour ce kickerman et on met à jour */
+		/***********************/
+		if ($kickermanId !==$playerId) {
+			$rs = mysql_query("UPDATE pokerpoints SET knockouts = COALESCE(knockouts,0)-1 WHERE id_event = " . $eventid . " AND id_player =" . $kickermanId );
+		}
+
+		$blnquery = false;
+		$arr = $row;
+	}
+
 
 
 
